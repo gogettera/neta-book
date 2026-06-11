@@ -219,6 +219,11 @@
   #ed-crop .ccancel{background:#efe7da;color:#6a625a}
   #ed-crop .cstage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:16px;overflow:hidden}
   #ed-crop .cstage img{max-width:100%;max-height:100%;display:block}
+  .mosaic{position:absolute;inset:0;display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:1fr;gap:5px;padding:5px;background:var(--cream)}
+  .mosaic>img{width:100%;height:100%;object-fit:cover;border-radius:3px;background:#dde4e0}
+  .mosaic .mcard{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:6;background:var(--cream);padding:16px 26px;border-radius:4px;box-shadow:0 14px 32px -12px rgba(0,0,0,.5);text-align:center;max-width:48%}
+  .mosaic .mcard b{font-family:'Frank Ruhl Libre',serif;font-weight:500;font-size:clamp(13px,2.1vw,22px);color:var(--ink);line-height:1.3;display:block}
+  .mosaic .mcard span{font-family:'Gveret Levin AlefAlefAlef',cursive;color:var(--coral-deep);font-size:clamp(13px,1.9vw,19px);display:block;margin-top:8px}
   @media print{#ed-bar,#ed-modal,#ed-img,#ed-handles,#ed-crop{display:none!important}}
 </style>
 </head>
@@ -304,7 +309,7 @@
   <div class="leaf spread">
     <div class="mag">
       <div class="big">
-        <img src="https://drive.google.com/thumbnail?id=1KYasHreJ1Uk8KipkJJB1bzd-uS01DFec&sz=w1400">
+        <img src="https://drive.google.com/thumbnail?id=14j7mPoifbl93cA9sVPrqLezVZ7TTgEpm&sz=w1400">
         <div class="tagrt">כל הכיתה</div>
       </div>
       <div class="right">
@@ -406,9 +411,9 @@
       <div class="o" style="width:24%;aspect-ratio:1;left:4%;top:12%"><img src="https://drive.google.com/thumbnail?id=1TBH7E05M0GYOYVoa_egqEiKrQ5TFVXOK&sz=w700"></div>
       <div class="o" style="width:20%;aspect-ratio:1;left:27%;top:9%"><img src="https://drive.google.com/thumbnail?id=1n0UYu12KOEfITeaccrU9BTcANb23qKtX&sz=w700"></div>
       <div class="o" style="width:22%;aspect-ratio:1;left:15%;top:54%"><img src="https://drive.google.com/thumbnail?id=1_l03ViwnALr0gmFU44XgjNzGpyXSpBY7&sz=w700"></div>
-      <div class="o" style="width:19%;aspect-ratio:1;left:39%;top:50%"><div class="pic empty"><span>+ תמונה</span></div></div>
-      <div class="o" style="width:23%;aspect-ratio:1;left:56%;top:45%"><div class="pic empty"><span>+ תמונה</span></div></div>
-      <div class="o" style="width:18%;aspect-ratio:1;left:77%;top:56%"><div class="pic empty"><span>+ תמונה</span></div></div>
+      <div class="o" style="width:19%;aspect-ratio:1;left:39%;top:50%"><img src="https://drive.google.com/thumbnail?id=10D0tFM0L8H2bi55HfX3-8Ko8FafyAb1V&sz=w700"></div>
+      <div class="o" style="width:23%;aspect-ratio:1;left:56%;top:45%"><img src="https://drive.google.com/thumbnail?id=10IliGAppc8nP6Gv2qX_DONLHFoPHOWoX&sz=w700"></div>
+      <div class="o" style="width:18%;aspect-ratio:1;left:77%;top:56%"><img src="https://drive.google.com/thumbnail?id=1qtDVwNUOhqpcvlmtzzmPe_gd1LHU6t6B&sz=w700"></div>
       <div class="d" style="left:50%;top:15%;width:5%"><svg viewBox="0 0 24 24"><use href="#star"/></svg></div>
       <div class="d" style="left:34%;top:43%;width:4.5%"><svg viewBox="0 0 24 24"><use href="#spark"/></svg></div>
     </div>
@@ -481,15 +486,9 @@
     <div class="gutter"></div>
   </div>
 
-  <div class="lbl"><span><span class="n">15</span> · נשימה · טקסט בלבד</span><span class="d"><span class="pg">עמ' 28-29</span> · 25 × 50</span></div>
+  <div class="lbl"><span><span class="n">15</span> · קולאז' · רגעים קטנים</span><span class="d"><span class="pg">עמ' 28-29</span> · 25 × 50</span></div>
   <div class="leaf spread">
-    <div class="breath">
-      <div class="dood" style="top:12%;right:12%;width:7%;color:var(--gold);opacity:.6"><svg viewBox="0 0 24 24"><use href="#spark"/></svg></div>
-      <div class="dood" style="bottom:14%;left:12%;width:8%;color:var(--coral);opacity:.45"><svg viewBox="0 0 24 24"><use href="#heart"/></svg></div>
-      <div class="dood" style="top:18%;left:16%;width:5.5%;color:var(--teal);opacity:.5"><svg viewBox="0 0 24 24"><use href="#flower"/></svg></div>
-      <div class="q">כיתה טובה היא <em>בית</em>.<br>ואת הפכת אותנו למשפחה.</div>
-      <div class="by">תודה, נטע</div>
-    </div>
+    <div class="mosaic"><img src="https://drive.google.com/thumbnail?id=11wdN3-BBvMsF4-0JAttzBRrgT3vj_nxV&sz=w500"><img src="https://drive.google.com/thumbnail?id=16lnNmIhiBmdhKYZOXnmdZ9OA_N4N9_YC&sz=w500"><img src="https://drive.google.com/thumbnail?id=16M8SpsquNgSv_rnHVMtuYrDGJs4YVShn&sz=w500"><img src="https://drive.google.com/thumbnail?id=1A8tiK2B2ibmRx7V44sOiW9gfWzZ9HNt7&sz=w500"><img src="https://drive.google.com/thumbnail?id=1C0Gip6H82xk1CA1Na5R8c3xMqDFPeQZZ&sz=w500"><img src="https://drive.google.com/thumbnail?id=1a1oDHWv6FoPCQV8mV5EtbkCU8YlN6OfB&sz=w500"><img src="https://drive.google.com/thumbnail?id=1ca2wQgR8EsVfk5rN7MeOcCONZ1n58HFm&sz=w500"><img src="https://drive.google.com/thumbnail?id=1jQONyK_akReePz-ZOGv-ZAcupLRcKPzc&sz=w500"><img src="https://drive.google.com/thumbnail?id=1lOsDburNAnnFl-lgmDcFMERMnW8aGXV1&sz=w500"><img src="https://drive.google.com/thumbnail?id=1HrQeFHe2-OkawaMaR1fTfvztHOh452Ae&sz=w500"><img src="https://drive.google.com/thumbnail?id=1LwiU_HHmyn8VHI8hVBhLrXn3DTB8PFt5&sz=w500"><img src="https://drive.google.com/thumbnail?id=1yh0_MrmkaPJl1yCHRi6EbyYjfTwPn4Dk&sz=w500"><div class="mcard"><b>כיתה טובה היא בית.<br>ואת הפכת אותנו למשפחה.</b><span>תודה, נטע ♥</span></div></div>
     <div class="gutter"></div>
   </div>
 
