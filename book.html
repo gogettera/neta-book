@@ -650,6 +650,7 @@
     var done=false;
     window.__netaCb=function(d){
       done=true;
+      if(document.body.classList.contains('editing')){ setStatus('☁ מחובר'); return; }
       try{
         if(d&&d.html&&d.html.length>200){
           wrap.innerHTML=d.html; tagEditables(); try{localStorage.setItem(KEY,d.html);}catch(e){}
