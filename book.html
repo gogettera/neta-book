@@ -191,6 +191,12 @@
   .close .tx{position:absolute;top:0;bottom:0;right:0;left:auto;width:50%;z-index:3;color:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;padding:9% 6%;text-shadow:0 1px 12px rgba(120,30,10,.45)}
   .close .tx h2{font-family:'Suez One',serif;font-size:clamp(22px,3.9vw,38px);margin:.35em 0 .15em;color:#fffaf2}
   .close .tx .names{display:flex;flex-wrap:wrap;gap:4px 10px;justify-content:center;max-width:92%;margin:13px auto 0;color:#ffe5d6;font-size:clamp(8px,1.3vw,12px);font-weight:300}
+  .close .cwrap{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--cream)}
+  .close .ctop{flex:none;padding:3% 5% 1.6%;text-align:center}
+  .close .ctop h2{font-family:'Suez One',serif;font-size:clamp(17px,3vw,32px);color:var(--coral-deep);margin:0;line-height:1.12}
+  .close .cphoto{flex:1;min-height:0;overflow:hidden;margin:0 4%;border-radius:3px;background:#dde4e0}
+  .close .cphoto img{width:100%;height:100%;object-fit:cover;display:block}
+  .close .cnames{flex:none;padding:2.2% 6% 2.8%;display:flex;flex-wrap:wrap;gap:4px 12px;justify-content:center;color:#6a7268;font-size:clamp(8px,1.3vw,12px);font-weight:400}
   .close .tx .qr{margin-top:16px;width:clamp(44px,8.5vw,68px);height:clamp(44px,8.5vw,68px);border:1.6px solid rgba(255,240,228,.7);border-radius:8px;display:flex;align-items:center;justify-content:center;text-align:center;color:#ffe5d6;font-size:8px;font-weight:700;line-height:1.3}
 
   .foot{text-align:center;color:var(--muted);font-size:12px;line-height:1.7;margin-top:24px}
@@ -383,11 +389,13 @@
   <div class="lbl"><span><span class="n">07</span> · מתחת לשמיים · דיפטיך</span><span class="d"><span class="pg">עמ' 12-13</span> · 25 × 50</span></div>
   <div class="leaf spread">
     <div class="sky">
-      <div class="ph" style="grid-area:1 / 1 / 3 / 3"><img src="https://drive.google.com/thumbnail?id=1GUISWtsKN-JhWZCbU5CGOWNdHgcQy3_q&sz=w1000"></div>
-      <div class="ph" style="grid-area:1 / 3 / 2 / 4"><img src="https://drive.google.com/thumbnail?id=1RtdDwgrpb2FkjcOoZP4L3wm3buFB4IsM&sz=w1000"></div>
-      <div class="ph" style="grid-area:1 / 4 / 2 / 5"><img src="https://drive.google.com/thumbnail?id=1DJw930ZjXD4PdUcShZ_o1JJfbePF11oX&sz=w1000"></div>
-      <div class="ph" style="grid-area:2 / 3 / 3 / 4"><img src="https://drive.google.com/thumbnail?id=1OdIuiCZRU1PZEgGpeMm3hCa2uhVFF21-&sz=w1000"></div>
-      <div class="ph" style="grid-area:2 / 4 / 3 / 5"><img src="https://drive.google.com/thumbnail?id=144Sg6T2JYVJkdQXTgSUivQbsTnKuovlU&sz=w1000"></div>
+      <div class="ph" style="grid-area:1 / 1 / 2 / 3"><img src="https://drive.google.com/thumbnail?id=1s8QJb2d36nO-9Emz71C9yAg7lJiN8ZoJ&sz=w1000"></div>
+      <div class="ph" style="grid-area:1 / 3 / 2 / 4"><img src="https://drive.google.com/thumbnail?id=1GrZh3R-Q4Ni2A0tYJFOSV9kX_Pv2q4Ax&sz=w1000"></div>
+      <div class="ph" style="grid-area:1 / 4 / 2 / 5"><img src="https://drive.google.com/thumbnail?id=1vBxu5tAuERweRhFy57ThYTEfxlue7aLH&sz=w1000"></div>
+      <div class="ph" style="grid-area:2 / 1 / 3 / 2"><img src="https://drive.google.com/thumbnail?id=1RtdDwgrpb2FkjcOoZP4L3wm3buFB4IsM&sz=w1000"></div>
+      <div class="ph" style="grid-area:2 / 2 / 3 / 3"><img src="https://drive.google.com/thumbnail?id=17r8Ckdo6KAXAg5j2s86l9KodhPHqQs1c&sz=w1000"></div>
+      <div class="ph" style="grid-area:2 / 3 / 3 / 4"><img src="https://drive.google.com/thumbnail?id=1GUISWtsKN-JhWZCbU5CGOWNdHgcQy3_q&sz=w1000"></div>
+      <div class="ph" style="grid-area:2 / 4 / 3 / 5"><img src="https://drive.google.com/thumbnail?id=1OdIuiCZRU1PZEgGpeMm3hCa2uhVFF21-&sz=w1000"></div>
       <div class="card"><h3>מתחת לשמיים</h3><p>הכי אהבנו את הימים באוויר הפתוח.</p></div>
     </div>
     <div class="gutter"></div>
@@ -512,11 +520,10 @@
 
   <div class="lbl"><span><span class="n">17</span> · נעילה · תמונה + חתימות</span><span class="d"><span class="pg">עמ' 32-33</span> · 25 × 50</span></div>
   <div class="leaf spread close">
-    <img class="full bg" src="https://drive.google.com/thumbnail?id=1oE5cBqOSO_9M6de7LdjqqDPsCWV8cKsz&sz=w1600">
-    <div class="cscrim"></div>
-    <div class="tx">
-      <h2>נאהב אותך תמיד</h2>
-      <div class="names"><span>ארי</span><span>ארי</span><span>אנג'לינה</span><span>אמי</span><span>אלה</span><span>איתן</span><span>אייר</span><span>אור</span><span>אגם</span><span>אביגיל</span><span>נח</span><span>נועם</span><span>נבו</span><span>מיילי</span><span>ליאו</span><span>יונתן</span><span>יהלי</span><span>טיילור</span><span>סדי</span><span>גילי</span><span>תור</span><span>קאי</span><span>עמנואל</span><span>עומר</span><span>נרי</span><span>נעמי</span><span>נעמי</span></div>
+    <div class="cwrap">
+      <div class="ctop"><h2>לנצח תהיי המורה של ילדותנו</h2></div>
+      <div class="cphoto"><img src="https://drive.google.com/thumbnail?id=1oE5cBqOSO_9M6de7LdjqqDPsCWV8cKsz&sz=w1600"></div>
+      <div class="cnames"><span>ארי</span><span>ארי</span><span>אנג'לינה</span><span>אמי</span><span>אלה</span><span>איתן</span><span>אייר</span><span>אור</span><span>אגם</span><span>אביגיל</span><span>נח</span><span>נועם</span><span>נבו</span><span>מיילי</span><span>ליאו</span><span>יונתן</span><span>יהלי</span><span>טיילור</span><span>סדי</span><span>גילי</span><span>תור</span><span>קאי</span><span>עמנואל</span><span>עומר</span><span>נרי</span><span>נעמי</span><span>נעמי</span></div>
     </div>
     <div class="gutter"></div>
   </div>
