@@ -89,8 +89,8 @@
   .firstday .tint{background:linear-gradient(135deg,rgba(13,95,87,.72),rgba(194,64,29,.55))}
   .firstday .kick{font-family:'Suez One',serif;letter-spacing:.08em;font-size:clamp(10px,1.7vw,16px);color:#ffe0c2;margin-bottom:.7em}
 
-  .feat{position:absolute;inset:0;display:grid;grid-template-rows:64% 36%;background:var(--gold)}
-  .feat .hero{position:relative;overflow:hidden;min-height:0}
+  .feat{position:absolute;inset:0;background:var(--gold)}
+  .feat .hero{position:absolute;inset:0;overflow:hidden}
   .feat .hero img{position:absolute;inset:0}
   .feat .hero .chip{position:absolute;right:6%;bottom:8%;z-index:3;background:var(--coral);color:var(--cream);padding:7px 15px;font-weight:800;letter-spacing:.1em;font-size:clamp(8px,1.3vw,12px)}
   .feat .hero .chip b{display:block;font-family:'Suez One',serif;font-weight:400;font-size:clamp(13px,2vw,18px);letter-spacing:0}
@@ -110,6 +110,12 @@
   .dip .seam .kick{color:var(--coral);justify-content:center}
   .dip .seam h3{font-family:'Suez One',serif;font-size:clamp(14px,2.3vw,22px);margin:.3em 0 .15em}
   .dip .seam p{font-family:'Frank Ruhl Libre',serif;font-style:italic;font-size:clamp(9px,1.3vw,12px);color:#4a544f;margin:0}
+  .sky{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr 1fr;gap:7px;padding:7px;background:linear-gradient(180deg,#bfe3f2,#e3f1f6 45%,#f3e8d0)}
+  .sky .ph{position:relative;overflow:hidden;border-radius:3px;background:#dde4e0}
+  .sky .ph img{width:100%;height:100%;object-fit:cover;display:block}
+  .sky .card{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:8;background:var(--cream);color:var(--ink);text-align:center;padding:14px 22px;border-radius:4px;box-shadow:0 12px 30px -10px rgba(20,50,70,.5);max-width:34%}
+  .sky .card h3{font-family:'Suez One',serif;font-size:clamp(14px,2.3vw,22px);margin:.2em 0 .15em}
+  .sky .card p{font-family:'Frank Ruhl Libre',serif;font-style:italic;font-size:clamp(9px,1.3vw,12px);color:#4a544f;margin:0}
 
   .post{position:absolute;inset:0;background:var(--sand);display:grid;grid-template-columns:1fr 1fr;place-items:center;padding:7%}
   .post .snap{background:#fff;padding:3.5% 3.5% 8%;box-shadow:0 14px 26px -12px rgba(34,60,56,.6);transform:rotate(3deg);width:78%}
@@ -149,11 +155,11 @@
   .kc .pic.empty span{color:#bcae93;font-size:clamp(6px,.82vw,8px);font-weight:600}
   .kc .nm{font-family:'Gveret Levin AlefAlefAlef',cursive;color:var(--coral-deep);font-size:clamp(7px,.98vw,11px);text-align:center;line-height:1.04;padding:3px 2px 4px}
 
-  .film{position:absolute;inset:0;background:#23282a;display:flex;align-items:center;padding:0 2%}
+  .film{position:absolute;inset:0;background:#23282a;display:flex;align-items:center;padding:0 2%;overflow:hidden}
   .film:before,.film:after{content:"";position:absolute;left:0;right:0;height:9%;background:repeating-linear-gradient(90deg,#23282a 0 1.6%,#0d0f10 1.6% 3.2%)}
   .film:before{top:0}.film:after{bottom:0}
-  .film .row{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4%;width:100%;padding:0 1%}
-  .film .fr{position:relative;overflow:hidden;aspect-ratio:1/1;border-radius:3px;background:#000}
+  .film .row{display:flex;gap:1.6%;width:100%;padding:0 1%;justify-content:flex-start}
+  .film .fr{position:relative;overflow:hidden;aspect-ratio:1/1;border-radius:3px;background:#000;flex:0 0 22.5%}
   .film .ttl{position:absolute;z-index:6;top:11%;right:6%;color:#fff;text-align:right}
   .film .ttl .kick{color:var(--gold)}
   .film .ttl h3{font-family:'Suez One',serif;font-size:clamp(14px,2.4vw,22px);margin:.2em 0 0}
@@ -182,7 +188,7 @@
   .close{position:relative}
   .close .bg{position:absolute;inset:0;z-index:1}
   .close .cscrim{position:absolute;inset:0;z-index:2;background:linear-gradient(90deg,rgba(244,98,58,0) 34%,rgba(244,98,58,.4) 50%,rgba(244,98,58,.85) 68%,rgba(244,98,58,.97) 100%)}
-  .close .tx{position:absolute;top:0;bottom:0;right:0;left:auto;width:50%;z-index:3;color:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5% 6%;text-shadow:0 1px 12px rgba(120,30,10,.45)}
+  .close .tx{position:absolute;top:0;bottom:0;right:0;left:auto;width:50%;z-index:3;color:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;padding:9% 6%;text-shadow:0 1px 12px rgba(120,30,10,.45)}
   .close .tx h2{font-family:'Suez One',serif;font-size:clamp(22px,3.9vw,38px);margin:.35em 0 .15em;color:#fffaf2}
   .close .tx .names{display:flex;flex-wrap:wrap;gap:4px 10px;justify-content:center;max-width:92%;margin:13px auto 0;color:#ffe5d6;font-size:clamp(8px,1.3vw,12px);font-weight:300}
   .close .tx .qr{margin-top:16px;width:clamp(44px,8.5vw,68px);height:clamp(44px,8.5vw,68px);border:1.6px solid rgba(255,240,228,.7);border-radius:8px;display:flex;align-items:center;justify-content:center;text-align:center;color:#ffe5d6;font-size:8px;font-weight:700;line-height:1.3}
@@ -351,16 +357,12 @@
     <div class="gutter"></div>
   </div>
 
-  <div class="lbl"><span><span class="n">05</span> · יום של חגיגה · תמונה + שלישייה</span><span class="d"><span class="pg">עמ' 8-9</span> · 25 × 50</span></div>
+  <div class="lbl"><span><span class="n">05</span> · פורים · כולנו מחופשים</span><span class="d"><span class="pg">עמ' 8-9</span> · 25 × 50</span></div>
   <div class="leaf spread">
     <div class="feat">
       <div class="hero">
         <img src="https://drive.google.com/thumbnail?id=1jIJ2wilTECRPFCTJO7S0CM-ldsxIriJD&sz=w1600">
-        <div class="chip">יום של חגיגה<b>כולנו מחופשים</b></div>
-      </div>
-      <div class="thumbs">
-        <div class="fr"><img src="https://drive.google.com/thumbnail?id=1MTdBtDk0GuVbItEHY1Hcet8--4GCPDg1&sz=w800"></div>
-        <div class="fr"><img src="https://drive.google.com/thumbnail?id=1jYymEvvqtZY6QaodivqW84hC6RrOLfKj&sz=w800"></div>
+        <div class="chip">פורים שמח<b>כולנו מחופשים</b></div>
       </div>
     </div>
     <div class="gutter"></div>
@@ -380,20 +382,20 @@
 
   <div class="lbl"><span><span class="n">07</span> · מתחת לשמיים · דיפטיך</span><span class="d"><span class="pg">עמ' 12-13</span> · 25 × 50</span></div>
   <div class="leaf spread">
-    <div class="dip">
-      <div class="fr"><img src="https://drive.google.com/thumbnail?id=1GUISWtsKN-JhWZCbU5CGOWNdHgcQy3_q&sz=w1000"></div>
-      <div class="fr"><img src="https://drive.google.com/thumbnail?id=1RtdDwgrpb2FkjcOoZP4L3wm3buFB4IsM&sz=w1000"></div>
-      <div class="seam">
-        <h3 class="display">מתחת לשמיים</h3>
-        <p>הכי אהבנו את הימים באוויר הפתוח.</p>
-      </div>
+    <div class="sky">
+      <div class="ph" style="grid-area:1 / 1 / 3 / 3"><img src="https://drive.google.com/thumbnail?id=1GUISWtsKN-JhWZCbU5CGOWNdHgcQy3_q&sz=w1000"></div>
+      <div class="ph" style="grid-area:1 / 3 / 2 / 4"><img src="https://drive.google.com/thumbnail?id=1RtdDwgrpb2FkjcOoZP4L3wm3buFB4IsM&sz=w1000"></div>
+      <div class="ph" style="grid-area:1 / 4 / 2 / 5"><img src="https://drive.google.com/thumbnail?id=1DJw930ZjXD4PdUcShZ_o1JJfbePF11oX&sz=w1000"></div>
+      <div class="ph" style="grid-area:2 / 3 / 3 / 4"><img src="https://drive.google.com/thumbnail?id=1OdIuiCZRU1PZEgGpeMm3hCa2uhVFF21-&sz=w1000"></div>
+      <div class="ph" style="grid-area:2 / 4 / 3 / 5"><img src="https://drive.google.com/thumbnail?id=144Sg6T2JYVJkdQXTgSUivQbsTnKuovlU&sz=w1000"></div>
+      <div class="card"><h3>מתחת לשמיים</h3><p>הכי אהבנו את הימים באוויר הפתוח.</p></div>
     </div>
     <div class="gutter"></div>
   </div>
 
   <div class="lbl"><span><span class="n">08</span> · קולאז' · פולארויד מפוזר</span><span class="d"><span class="pg">עמ' 14-15</span> · 25 × 50</span></div>
   <div class="leaf spread">
-    <div class="scatter"><div class="pol" style="width:17%;left:4%;top:7%;transform:rotate(-6deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=11X1HkKKgECdYlL-8OqXZmRGewvVlrYCH&sz=w600"></div></div><div class="pol" style="width:15%;left:25%;top:4%;transform:rotate(4deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=14zR69H_n-p7JCtQMOGo0-t3xkKIAKvNT&sz=w600"></div></div><div class="pol" style="width:16%;left:4%;top:52%;transform:rotate(5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1dG2_xrDVQyya8ClHR7vavz07t3m8XMI5&sz=w600"></div></div><div class="pol" style="width:15%;left:23%;top:56%;transform:rotate(-5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1lHhwAlDs-nXTF4BsxrQ8-aj600XlhlY0&sz=w600"></div></div><div class="pol" style="width:17%;left:62%;top:6%;transform:rotate(5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1cIXT2PG18fenkKnp-aYtTJAp9MwTvzMM&sz=w600"></div></div><div class="pol" style="width:16%;left:79%;top:32%;transform:rotate(-5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1wCvDo0wK7U_lpUfcKJqponXy_n5UBi-4&sz=w600"></div></div><div class="pol" style="width:15%;left:66%;top:58%;transform:rotate(4deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1zYYe9r2HuyKnvdjSiQb2QhlK49BNfMFG&sz=w600"></div></div><div class="pol" style="width:15%;left:43%;top:73%;transform:rotate(-4deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1JbTRTLeN7aqiJjE1w5LNf-6fOS39g7NC&sz=w600"></div></div><div class="pol" style="width:14%;left:45%;top:3%;transform:rotate(4deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1xD6Ujo7sur4hehXp_eaucsC8FRmV14KP&sz=w600"></div></div><div class="ttl"><h3>כולנו פה, יחד</h3><span>שנתיים של רגעים</span></div></div>
+    <div class="scatter"><div class="pol" style="width:17%;left:4%;top:7%;transform:rotate(-6deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1UlYmSzPP_gBB-zthmclYf2SH3UtAiFR0&sz=w600"></div></div><div class="pol" style="width:15%;left:25%;top:4%;transform:rotate(4deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=14zR69H_n-p7JCtQMOGo0-t3xkKIAKvNT&sz=w600"></div></div><div class="pol" style="width:16%;left:4%;top:52%;transform:rotate(5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1dG2_xrDVQyya8ClHR7vavz07t3m8XMI5&sz=w600"></div></div><div class="pol" style="width:15%;left:23%;top:56%;transform:rotate(-5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1lHhwAlDs-nXTF4BsxrQ8-aj600XlhlY0&sz=w600"></div></div><div class="pol" style="width:17%;left:62%;top:6%;transform:rotate(5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1cIXT2PG18fenkKnp-aYtTJAp9MwTvzMM&sz=w600"></div></div><div class="pol" style="width:16%;left:79%;top:32%;transform:rotate(-5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1wCvDo0wK7U_lpUfcKJqponXy_n5UBi-4&sz=w600"></div></div><div class="pol" style="width:15%;left:66%;top:58%;transform:rotate(4deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1zYYe9r2HuyKnvdjSiQb2QhlK49BNfMFG&sz=w600"></div></div><div class="pol" style="width:15%;left:43%;top:73%;transform:rotate(-4deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1JbTRTLeN7aqiJjE1w5LNf-6fOS39g7NC&sz=w600"></div></div><div class="pol" style="width:14%;left:45%;top:3%;transform:rotate(4deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1xD6Ujo7sur4hehXp_eaucsC8FRmV14KP&sz=w600"></div></div><div class="pol" style="width:14%;left:85%;top:8%;transform:rotate(5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1vXk1xmyhHTVXJ1LHF1eYqG_cdsYmgSrU&sz=w600"></div></div><div class="ttl"><h3>כולנו פה, יחד</h3><span>שנתיים של רגעים</span></div></div>
     <div class="gutter"></div>
   </div>
 
@@ -487,6 +489,7 @@
         <div class="fr"><img src="https://drive.google.com/thumbnail?id=1KjmWRr5v-UXHGz8EBpjBHmy1clSqAheE&sz=w700"></div>
         <div class="fr"><img src="https://drive.google.com/thumbnail?id=19x89l7uHH46I2Pc9NPYxGrQp1Qin24vA&sz=w700"></div>
         <div class="fr"><img src="https://drive.google.com/thumbnail?id=1B2kc8hn2HX_bb5Q07SGkYVBct2T6CrhR&sz=w700"></div>
+        <div class="fr"><img src="https://drive.google.com/thumbnail?id=1GQvtBzDTcXbx6paYpSH8f26CDwGo9q9i&sz=w700"></div>
       </div>
     </div>
     <div class="gutter"></div>
@@ -514,7 +517,6 @@
     <div class="tx">
       <h2>נאהב אותך תמיד</h2>
       <div class="names"><span>ארי</span><span>ארי</span><span>אנג'לינה</span><span>אמי</span><span>אלה</span><span>איתן</span><span>אייר</span><span>אור</span><span>אגם</span><span>אביגיל</span><span>נח</span><span>נועם</span><span>נבו</span><span>מיילי</span><span>ליאו</span><span>יונתן</span><span>יהלי</span><span>טיילור</span><span>סדי</span><span>גילי</span><span>תור</span><span>קאי</span><span>עמנואל</span><span>עומר</span><span>נרי</span><span>נעמי</span><span>נעמי</span></div>
-      <div class="qr">QR<br>לסרטונים</div>
     </div>
     <div class="gutter"></div>
   </div>
