@@ -1,0 +1,121 @@
+<!doctype html><html lang="he" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>אלבום לנטע · הוספת ילד</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;500;700;800&family=Frank+Ruhl+Libre:wght@500;700&family=Suez+One&display=swap" rel="stylesheet">
+<style>
+:root{--coral:#f4623a;--coral-deep:#c2401d;--cream:#fff4e4;--ink:#26302d;--bg:#e7ede9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:'Heebo',sans-serif;color:var(--ink);min-height:100vh}
+.card{max-width:560px;margin:0 auto;padding:22px 16px 60px}
+.head{text-align:center;margin:8px 0 18px}
+.head h1{font-family:'Suez One',serif;color:var(--coral-deep);font-size:26px;margin:0 0 6px}
+.head p{color:#5a635f;font-size:15px;margin:0;line-height:1.5}
+.box{background:#fffdf8;border:1px solid #ece1cf;border-radius:14px;padding:20px 18px;box-shadow:0 10px 30px -16px rgba(60,40,20,.4)}
+label{display:block;font-weight:700;font-size:15px;margin:16px 0 7px}
+label:first-child{margin-top:0}
+select,textarea{width:100%;font-family:'Heebo',sans-serif;font-size:16px;border:1.5px solid #e3d8c4;border-radius:10px;padding:12px;background:#fff;color:var(--ink)}
+textarea{min-height:110px;resize:vertical;line-height:1.5}
+select:focus,textarea:focus{outline:none;border-color:var(--coral)}
+.drop{border:2px dashed #e0d4be;border-radius:12px;padding:18px;text-align:center;background:#fffaf0;cursor:pointer;transition:.15s}
+.drop:hover{border-color:var(--coral);background:#fff6ea}
+.drop input{display:none}
+.drop .ic{font-size:30px}
+.drop .t{font-weight:700;margin-top:6px}
+.drop .s{color:#8a8275;font-size:13px;margin-top:3px}
+.preview{margin-top:12px;text-align:center;display:none}
+.preview img{max-width:180px;max-height:180px;border-radius:10px;border:3px solid #fff;box-shadow:0 6px 16px -8px rgba(0,0,0,.4)}
+.btn{margin-top:22px;width:100%;background:var(--coral);color:#fff;border:none;border-radius:30px;padding:15px;font-family:'Heebo',sans-serif;font-weight:800;font-size:17px;cursor:pointer;box-shadow:0 10px 22px -10px rgba(244,98,58,.7)}
+.btn:disabled{opacity:.55;cursor:default}
+.note{color:#8a8275;font-size:12.5px;text-align:center;margin-top:12px;line-height:1.5}
+.done{display:none;text-align:center;padding:30px 10px}
+.done .hh{font-size:46px}
+.done h2{font-family:'Suez One',serif;color:var(--coral-deep);margin:10px 0 6px}
+.done p{color:#5a635f;font-size:15px}
+.done a{color:var(--coral-deep);font-weight:700;cursor:pointer}
+.err{color:#c2401d;font-size:13px;text-align:center;margin-top:10px;display:none}
+</style></head><body>
+<div class="card">
+  <div class="head">
+    <h1>תודה, נטע ♥</h1>
+    <p>אנחנו מכינים אלבום פרידה לנטע מכל הכיתה.<br>הוסיפו את הילד/ה שלכם: תמונה ומשפט קטן לנטע.</p>
+  </div>
+
+  <div class="box" id="form">
+    <label for="kid">שם הילד/ה</label>
+    <select id="kid">
+      <option value="" disabled selected>בחרו מהרשימה…</option>
+    </select>
+
+    <label>תמונת פרופיל של הילד/ה</label>
+    <label class="drop" for="photo">
+      <div class="ic">📷</div>
+      <div class="t">לחצו להעלאת תמונה</div>
+      <div class="s">מהמצלמה או מהגלריה</div>
+      <input type="file" id="photo" accept="image/*">
+    </label>
+    <div class="preview" id="preview"><img id="previewImg" alt=""></div>
+
+    <label for="text">המשפט שלנו לנטע</label>
+    <textarea id="text" placeholder="למשל: נטע, תודה על שנתיים מדהימות. תמיד נזכור אותך…"></textarea>
+
+    <button class="btn" id="send">שליחה</button>
+    <div class="err" id="err"></div>
+    <div class="note">אפשר לשלוח שוב מתי שרוצים כדי לעדכן. אין צורך בחשבון או בהתחברות.</div>
+  </div>
+
+  <div class="done" id="done">
+    <div class="hh">🎉</div>
+    <h2>נשלח! תודה רבה</h2>
+    <p>הילד/ה שלכם נוסף לאלבום של נטע.<br><a id="again">להוסיף ילד/ה נוסף/ת</a></p>
+  </div>
+</div>
+
+<script>
+// קלוד ימלא את הכתובת אחרי שתפרוס את ה-Apps Script:
+var GAS = 'https://script.google.com/macros/s/AKfycbx54WOo7vgTuQi31Y5iWu8Z9G1IwewgTyQ6Z409eGzkwZXvFeTvb5IlNvUf6UgKL4FU/exec';
+
+var NAMES = ["ארי מאיר מרקוביץ","ארי ליידר","אנג'לינה קירש","אמי דגן","אלה מאוטנר","איתן בכר","אייר מאור","אור שריקי","אגם שרון כהן","אביגיל מוזס","נח צ'צ'יק","נועם טוביאנה","נבו כהן-חן","מיילי עוז","ליאו השנטי מנדל","יונתן זיגל","יהלי לוי","טיילור בן חיון","סדי לסדיי","גילי קטסטר","תור שמעון","קאי רואי","עמנואל בורשטיין","עומר איגר","נרי שאלתיאל","נעמי בנימין","נעמי בלסקי"];
+var sel=document.getElementById('kid');
+NAMES.forEach(function(n){var o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o);});
+
+var photoData='';
+document.getElementById('photo').addEventListener('change',function(e){
+  var f=e.target.files[0]; if(!f) return;
+  var img=new Image();
+  img.onload=function(){
+    var max=1000, w=img.width, h=img.height;
+    if(w>h && w>max){h=Math.round(h*max/w); w=max;}
+    else if(h>=w && h>max){w=Math.round(w*max/h); h=max;}
+    var c=document.createElement('canvas'); c.width=w; c.height=h;
+    c.getContext('2d').drawImage(img,0,0,w,h);
+    photoData=c.toDataURL('image/jpeg',0.82);
+    var p=document.getElementById('preview'); p.style.display='block';
+    document.getElementById('previewImg').src=photoData;
+  };
+  img.src=URL.createObjectURL(f);
+});
+
+document.getElementById('send').addEventListener('click',function(){
+  var kid=sel.value, text=document.getElementById('text').value.trim();
+  var err=document.getElementById('err'); err.style.display='none';
+  if(!kid){err.textContent='בחרו את שם הילד/ה';err.style.display='block';return;}
+  if(!photoData && !text){err.textContent='הוסיפו תמונה או משפט';err.style.display='block';return;}
+  var btn=document.getElementById('send'); btn.disabled=true; btn.textContent='שולח…';
+  fetch(GAS,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body:JSON.stringify({kid:kid,text:text,photo:photoData})})
+    .then(function(){finish();}).catch(function(){finish();});
+});
+function finish(){
+  document.getElementById('form').style.display='none';
+  document.getElementById('done').style.display='block';
+  window.scrollTo(0,0);
+}
+document.getElementById('again').addEventListener('click',function(){
+  sel.value=''; document.getElementById('text').value=''; photoData='';
+  document.getElementById('preview').style.display='none';
+  var btn=document.getElementById('send'); btn.disabled=false; btn.textContent='שליחה';
+  document.getElementById('done').style.display='none';
+  document.getElementById('form').style.display='block';
+});
+</script>
+</body></html>

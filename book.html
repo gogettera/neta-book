@@ -762,5 +762,32 @@
   cloudLoad();
 })();
 </script>
+<script>
+(function(){
+  var SUB='https://script.google.com/macros/s/AKfycbx54WOo7vgTuQi31Y5iWu8Z9G1IwewgTyQ6Z409eGzkwZXvFeTvb5IlNvUf6UgKL4FU/exec';
+  function fill(data){
+    if(!data) return;
+    document.querySelectorAll('.note').forEach(function(note){
+      var nm=note.querySelector('.nm'); if(!nm) return;
+      var name=nm.textContent.trim();
+      var e=data[name]; if(!e) return;
+      if(e.photoId){
+        var pic=note.querySelector('.pp .pic');
+        if(pic){ pic.classList.remove('empty'); pic.innerHTML='<img src="https://drive.google.com/thumbnail?id='+e.photoId+'&sz=w500" style="width:100%;height:100%;object-fit:cover;display:block">'; }
+      }
+      if(e.text){ var ln=note.querySelector('.lines'); if(ln){ ln.textContent=e.text; } }
+    });
+  }
+  function load(){
+    var cb='subcb_'+Math.floor(Math.random()*1e9);
+    window[cb]=function(d){ try{fill(d);}catch(e){} };
+    var sc=document.createElement('script');
+    sc.src=SUB+'?callback='+cb+'&t='+Date.now();
+    document.body.appendChild(sc);
+  }
+  if(document.readyState!=='loading') load(); else document.addEventListener('DOMContentLoaded',load);
+  setTimeout(load,2800);
+})();
+</script>
 </body>
 </html>
