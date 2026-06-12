@@ -2,6 +2,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>אלבום לנטע · הוספת ילד</title>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;500;700;800&family=Frank+Ruhl+Libre:wght@500;700&family=Suez+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css">
 <style>
 :root{--coral:#f4623a;--coral-deep:#c2401d;--cream:#fff4e4;--ink:#26302d;--bg:#e7ede9}
 *{box-sizing:border-box}
@@ -22,8 +23,17 @@ select:focus,textarea:focus{outline:none;border-color:var(--coral)}
 .drop .ic{font-size:30px}
 .drop .t{font-weight:700;margin-top:6px}
 .drop .s{color:#8a8275;font-size:13px;margin-top:3px}
+.cropwrap{display:none;margin-top:12px}
+.cropwrap .hint{font-size:13px;color:#8a8275;text-align:center;margin-bottom:8px}
+.cstage{max-height:58vh;background:#1c1c1c;border-radius:10px;overflow:hidden}
+.cstage img{display:block;max-width:100%}
+.cropbtns{display:flex;gap:8px;margin-top:10px}
+.cropbtns button{flex:1;border:none;border-radius:10px;padding:12px;font-family:'Heebo',sans-serif;font-weight:700;font-size:15px;cursor:pointer}
+.bok{background:var(--coral);color:#fff}
+.bre{background:#efe7d8;color:#5a534a}
 .preview{margin-top:12px;text-align:center;display:none}
-.preview img{max-width:180px;max-height:180px;border-radius:10px;border:3px solid #fff;box-shadow:0 6px 16px -8px rgba(0,0,0,.4)}
+.preview img{width:150px;height:150px;object-fit:cover;border-radius:50%;border:4px solid #fff;box-shadow:0 6px 16px -8px rgba(0,0,0,.4)}
+.preview .re{display:block;margin-top:8px;color:var(--coral-deep);font-weight:700;font-size:13px;cursor:pointer}
 .btn{margin-top:22px;width:100%;background:var(--coral);color:#fff;border:none;border-radius:30px;padding:15px;font-family:'Heebo',sans-serif;font-weight:800;font-size:17px;cursor:pointer;box-shadow:0 10px 22px -10px rgba(244,98,58,.7)}
 .btn:disabled{opacity:.55;cursor:default}
 .note{color:#8a8275;font-size:12.5px;text-align:center;margin-top:12px;line-height:1.5}
@@ -47,13 +57,26 @@ select:focus,textarea:focus{outline:none;border-color:var(--coral)}
     </select>
 
     <label>תמונת פרופיל של הילד/ה</label>
-    <label class="drop" for="photo">
+    <label class="drop" id="drop" for="photo">
       <div class="ic">📷</div>
       <div class="t">לחצו להעלאת תמונה</div>
       <div class="s">מהמצלמה או מהגלריה</div>
       <input type="file" id="photo" accept="image/*">
     </label>
-    <div class="preview" id="preview"><img id="previewImg" alt=""></div>
+
+    <div class="cropwrap" id="cropwrap">
+      <div class="hint">גררו וזזו · צבטו לזום · מקמו את הפנים בתוך הריבוע</div>
+      <div class="cstage"><img id="cimg" alt=""></div>
+      <div class="cropbtns">
+        <button type="button" class="bok" id="cropok">אישור התמונה</button>
+        <button type="button" class="bre" id="cropcancel">החלפת תמונה</button>
+      </div>
+    </div>
+
+    <div class="preview" id="preview">
+      <img id="previewImg" alt="">
+      <span class="re" id="repick">החלפת תמונה</span>
+    </div>
 
     <label for="text">המשפט שלנו לנטע</label>
     <textarea id="text" placeholder="למשל: נטע, תודה על שנתיים מדהימות. תמיד נזכור אותך…"></textarea>
@@ -70,30 +93,49 @@ select:focus,textarea:focus{outline:none;border-color:var(--coral)}
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
 <script>
-// קלוד ימלא את הכתובת אחרי שתפרוס את ה-Apps Script:
-var GAS = 'https://script.google.com/macros/s/AKfycbx54WOo7vgTuQi31Y5iWu8Z9G1IwewgTyQ6Z409eGzkwZXvFeTvb5IlNvUf6UgKL4FU/exec';
-
-var NAMES = ["ארי מאיר מרקוביץ","ארי ליידר","אנג'לינה קירש","אמי דגן","אלה מאוטנר","איתן בכר","אייר מאור","אור שריקי","אגם שרון כהן","אביגיל מוזס","נח צ'צ'יק","נועם טוביאנה","נבו כהן-חן","מיילי עוז","ליאו השנטי מנדל","יונתן זיגל","יהלי לוי","טיילור בן חיון","סדי לסדיי","גילי קטסטר","תור שמעון","קאי רואי","עמנואל בורשטיין","עומר איגר","נרי שאלתיאל","נעמי בנימין","נעמי בלסקי"];
+var GAS='https://script.google.com/macros/s/AKfycbx54WOo7vgTuQi31Y5iWu8Z9G1IwewgTyQ6Z409eGzkwZXvFeTvb5IlNvUf6UgKL4FU/exec';
+var NAMES=["ארי מאיר מרקוביץ","ארי ליידר","אנג'לינה קירש","אמי דגן","אלה מאוטנר","איתן בכר","אייר מאור","אור שריקי","אגם שרון כהן","אביגיל מוזס","נח צ'צ'יק","נועם טוביאנה","נבו כהן-חן","מיילי עוז","ליאו השנטי מנדל","יונתן זיגל","יהלי לוי","טיילור בן חיון","סדי לסדיי","גילי קטסטר","תור שמעון","קאי רואי","עמנואל בורשטיין","עומר איגר","נרי שאלתיאל","נעמי בנימין","נעמי בלסקי"];
 var sel=document.getElementById('kid');
 NAMES.forEach(function(n){var o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o);});
 
-var photoData='';
+var photoData='', cropper=null;
+var drop=document.getElementById('drop'), cropwrap=document.getElementById('cropwrap'),
+    cimg=document.getElementById('cimg'), preview=document.getElementById('preview');
+
+function resetCrop(){ if(cropper){cropper.destroy();cropper=null;} }
+
 document.getElementById('photo').addEventListener('change',function(e){
   var f=e.target.files[0]; if(!f) return;
-  var img=new Image();
-  img.onload=function(){
-    var max=1000, w=img.width, h=img.height;
-    if(w>h && w>max){h=Math.round(h*max/w); w=max;}
-    else if(h>=w && h>max){w=Math.round(w*max/h); h=max;}
-    var c=document.createElement('canvas'); c.width=w; c.height=h;
-    c.getContext('2d').drawImage(img,0,0,w,h);
-    photoData=c.toDataURL('image/jpeg',0.82);
-    var p=document.getElementById('preview'); p.style.display='block';
-    document.getElementById('previewImg').src=photoData;
+  var url=URL.createObjectURL(f);
+  drop.style.display='none'; preview.style.display='none';
+  cropwrap.style.display='block';
+  resetCrop();
+  cimg.src=url;
+  cimg.onload=function(){
+    cropper=new Cropper(cimg,{aspectRatio:1,viewMode:1,dragMode:'move',autoCropArea:1,background:false,responsive:true,guides:false,center:true});
   };
-  img.src=URL.createObjectURL(f);
 });
+
+document.getElementById('cropok').addEventListener('click',function(){
+  if(!cropper) return;
+  var canvas=cropper.getCroppedCanvas({width:800,height:800,imageSmoothingQuality:'high'});
+  photoData=canvas.toDataURL('image/jpeg',0.85);
+  document.getElementById('previewImg').src=photoData;
+  resetCrop();
+  cropwrap.style.display='none';
+  preview.style.display='block';
+});
+
+function rePick(){
+  photoData=''; resetCrop();
+  cropwrap.style.display='none'; preview.style.display='none';
+  drop.style.display='block';
+  document.getElementById('photo').value='';
+}
+document.getElementById('cropcancel').addEventListener('click',rePick);
+document.getElementById('repick').addEventListener('click',rePick);
 
 document.getElementById('send').addEventListener('click',function(){
   var kid=sel.value, text=document.getElementById('text').value.trim();
@@ -111,8 +153,7 @@ function finish(){
   window.scrollTo(0,0);
 }
 document.getElementById('again').addEventListener('click',function(){
-  sel.value=''; document.getElementById('text').value=''; photoData='';
-  document.getElementById('preview').style.display='none';
+  sel.value=''; document.getElementById('text').value=''; rePick();
   var btn=document.getElementById('send'); btn.disabled=false; btn.textContent='שליחה';
   document.getElementById('done').style.display='none';
   document.getElementById('form').style.display='block';
