@@ -153,6 +153,14 @@
   .film .ttl .kick{color:var(--gold)}
   .film .ttl h3{font-family:'Suez One',serif;font-size:clamp(14px,2.4vw,22px);margin:.2em 0 0}
 
+  .notes{position:absolute;inset:0;background:var(--sand);display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:2.4%;padding:3.4%}
+  .note{background:#fffdf7;border:1px solid #ece1cf;border-radius:7px;box-shadow:0 7px 18px -12px rgba(60,40,20,.5);padding:3.2% 4%;display:flex;flex-direction:column;position:relative}
+  .note .nm{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:clamp(11px,1.75vw,17px);color:var(--coral-deep);display:flex;align-items:center;gap:6px;margin-bottom:5%}
+  .note .nm .hh{width:12px;height:12px;color:var(--coral);flex:none}
+  .note .lines{flex:1;background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(2em - 1px),#e6dcc7 calc(2em - 1px),#e6dcc7 2em)}
+  .note.heart{background:var(--coral);border:none;align-items:center;justify-content:center}
+  .note.heart .hb{width:36%;height:36%;color:#fff}
+  .note.heart .cl{font-family:'Suez One',serif;color:#fff;font-size:clamp(13px,2vw,20px);margin-top:5%}
   .breath{position:absolute;inset:0;background:var(--sand);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:9% 12%}
   .breath .q{font-family:'Frank Ruhl Libre',serif;font-weight:500;font-size:clamp(20px,4vw,44px);line-height:1.3;color:var(--ink)}
   .breath .q em{font-style:normal;color:var(--coral)}
@@ -425,59 +433,70 @@
     <div class="gutter"></div>
   </div>
 
-  <div class="lbl"><span><span class="n">12</span> · כל אחד ואחת · קיר תמונות</span><span class="d"><span class="pg">עמ' 22-23</span> · 25 × 50</span></div>
+  <div class="lbl"><span><span class="n">12</span> · מילים לנטע · בכתב ידנו</span><span class="d"><span class="pg">עמ' 22-23</span> · 25 × 50</span></div>
   <div class="leaf spread">
-    <div class="wall">
-      <div class="whead">
-        <h3 class="display">המילים של כולנו</h3>
-      </div>
-      <div class="wg">
-        <div class="kc" style="--r:-2deg"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1K3rkxLlopAndJRErQwbvpIeuP-8nHQyC&sz=w500"></div><div class="nm">ארי מאיר מרקוביץ</div></div>
-        <div class="kc" style="--r:1.5deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">ארי ליידר</div></div>
-        <div class="kc" style="--r:-1deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">אנג'לינה קירש</div></div>
-        <div class="kc" style="--r:2deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">אמי דגן</div></div>
-        <div class="kc" style="--r:-1.5deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">אלה מאוטנר</div></div>
-        <div class="kc" style="--r:1deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">איתן בכר</div></div>
-        <div class="kc" style="--r:-2deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">אייר מאור</div></div>
-        <div class="kc" style="--r:1.5deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">אור שריקי</div></div>
-        <div class="kc" style="--r:-1deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">אגם שרון כהן</div></div>
-        <div class="kc" style="--r:2deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">אביגיל מוזס</div></div>
-        <div class="kc" style="--r:-1.5deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">נח צ'צ'יק</div></div>
-        <div class="kc" style="--r:1deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">נועם טוביאנה</div></div>
-        <div class="kc" style="--r:-2deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">נבו כהן-חן</div></div>
-        <div class="kc" style="--r:1.5deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">מיילי עוז</div></div>
-      </div>
+    <div class="notes">
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>ארי מאיר מרקוביץ</div><div class="lines"></div></div>
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>ארי ליידר</div><div class="lines"></div></div>
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>אנג'לינה קירש</div><div class="lines"></div></div>
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>אמי דגן</div><div class="lines"></div></div>
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>אלה מאוטנר</div><div class="lines"></div></div>
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>איתן בכר</div><div class="lines"></div></div>
     </div>
     <div class="gutter"></div>
   </div>
 
-  <div class="lbl"><span><span class="n">13</span> · כל אחד ואחת · קיר תמונות</span><span class="d"><span class="pg">עמ' 24-25</span> · 25 × 50</span></div>
+  <div class="lbl"><span><span class="n">13</span> · מילים לנטע · בכתב ידנו</span><span class="d"><span class="pg">עמ' 24-25</span> · 25 × 50</span></div>
   <div class="leaf spread">
-    <div class="wall">
-      <div class="whead">
-        <h3 class="display">30 לבבות</h3>
-      </div>
-      <div class="wg">
-        <div class="kc" style="--r:1.5deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">ליאו השנטי מנדל</div></div>
-        <div class="kc" style="--r:-1.5deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">יונתן זיגל</div></div>
-        <div class="kc" style="--r:1deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">יהלי לוי</div></div>
-        <div class="kc" style="--r:-2deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">טיילור בן חיון</div></div>
-        <div class="kc" style="--r:1.5deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">סדי לסדיי</div></div>
-        <div class="kc" style="--r:-1deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">גילי קסטנר</div></div>
-        <div class="kc" style="--r:2deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">תור שמעון</div></div>
-        <div class="kc" style="--r:-1.5deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">קאי רואי</div></div>
-        <div class="kc" style="--r:1deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">עמנואל בורשטין</div></div>
-        <div class="kc" style="--r:-2deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">עומר איגר</div></div>
-        <div class="kc" style="--r:1.5deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">נרי שאלתיאל</div></div>
-        <div class="kc" style="--r:-1deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">נעמי בנימין</div></div>
-        <div class="kc" style="--r:2deg"><div class="pic empty"><span>תמונה</span></div><div class="nm">נעמי בלסקי</div></div>
-        <div class="kc" style="--r:-1.5deg;background:var(--coral)"><div class="pic" style="background:var(--coral)"><svg class="ico" style="width:32%;height:32%;color:#fff"><use href="#heart"/></svg></div><div class="nm" style="color:#fff">כיתה ב'</div></div>
-      </div>
+    <div class="notes">
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>אייר מאור</div><div class="lines"></div></div>
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>אור שריקי</div><div class="lines"></div></div>
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>אגם שרון כהן</div><div class="lines"></div></div>
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>אביגיל מוזס</div><div class="lines"></div></div>
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>נח צ'צ'יק</div><div class="lines"></div></div>
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>נועם טוביאנה</div><div class="lines"></div></div>
     </div>
     <div class="gutter"></div>
   </div>
 
-  <div class="lbl"><span><span class="n">14</span> · רגעים · סרט צילום</span><span class="d"><span class="pg">עמ' 26-27</span> · 25 × 50</span></div>
+  <div class="lbl"><span><span class="n">14</span> · מילים לנטע · בכתב ידנו</span><span class="d"><span class="pg">עמ' 26-27</span> · 25 × 50</span></div>
+  <div class="leaf spread">
+    <div class="notes">
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>נבו כהן-חן</div><div class="lines"></div></div>
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>מיילי עוז</div><div class="lines"></div></div>
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>ליאו השנטי מנדל</div><div class="lines"></div></div>
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>יונתן זיגל</div><div class="lines"></div></div>
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>יהלי לוי</div><div class="lines"></div></div>
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>טיילור בן חיון</div><div class="lines"></div></div>
+    </div>
+    <div class="gutter"></div>
+  </div>
+
+  <div class="lbl"><span><span class="n">15</span> · מילים לנטע · בכתב ידנו</span><span class="d"><span class="pg">עמ' 28-29</span> · 25 × 50</span></div>
+  <div class="leaf spread">
+    <div class="notes">
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>סדי לסדיי</div><div class="lines"></div></div>
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>גילי קסטנר</div><div class="lines"></div></div>
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>תור שמעון</div><div class="lines"></div></div>
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>קאי רואי</div><div class="lines"></div></div>
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>עמנואל בורשטיין</div><div class="lines"></div></div>
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>עומר איגר</div><div class="lines"></div></div>
+    </div>
+    <div class="gutter"></div>
+  </div>
+
+  <div class="lbl"><span><span class="n">16</span> · מילים לנטע · בכתב ידנו</span><span class="d"><span class="pg">עמ' 30-31</span> · 25 × 50</span></div>
+  <div class="leaf spread">
+    <div class="notes">
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>נרי שאלתיאל</div><div class="lines"></div></div>
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>נעמי בנימין</div><div class="lines"></div></div>
+        <div class="note"><div class="nm"><svg class="hh"><use href="#heart"/></svg>נעמי בלסקי</div><div class="lines"></div></div>
+        <div class="note heart"><svg class="hb"><use href="#heart"/></svg><div class="cl">כיתה ב' ♥</div></div>
+    </div>
+    <div class="gutter"></div>
+  </div>
+
+  <div class="lbl"><span><span class="n">17</span> · רגעים · סרט צילום</span><span class="d"><span class="pg">עמ' 32-33</span> · 25 × 50</span></div>
   <div class="leaf spread">
     <div class="film">
       <div class="ttl"><h3>רגעים שלא נשכח</h3></div>
@@ -491,13 +510,13 @@
     <div class="gutter"></div>
   </div>
 
-  <div class="lbl"><span><span class="n">15</span> · קולאז' · רגעים קטנים</span><span class="d"><span class="pg">עמ' 28-29</span> · 25 × 50</span></div>
+  <div class="lbl"><span><span class="n">18</span> · קולאז' · רגעים קטנים</span><span class="d"><span class="pg">עמ' 34-35</span> · 25 × 50</span></div>
   <div class="leaf spread">
     <div class="mosaic"><img src="https://drive.google.com/thumbnail?id=11wdN3-BBvMsF4-0JAttzBRrgT3vj_nxV&sz=w500"><img src="https://drive.google.com/thumbnail?id=1jp6kSz3avck_TIkCw2TLNnIzXlmZJq6H&sz=w500"><img src="https://drive.google.com/thumbnail?id=1i3wF_TbuOHyycC7tAwF_ZogtSRvKvOeC&sz=w500"><img src="https://drive.google.com/thumbnail?id=1A8tiK2B2ibmRx7V44sOiW9gfWzZ9HNt7&sz=w500"><img src="https://drive.google.com/thumbnail?id=1C0Gip6H82xk1CA1Na5R8c3xMqDFPeQZZ&sz=w500"><img src="https://drive.google.com/thumbnail?id=1a1oDHWv6FoPCQV8mV5EtbkCU8YlN6OfB&sz=w500"><img src="https://drive.google.com/thumbnail?id=1ca2wQgR8EsVfk5rN7MeOcCONZ1n58HFm&sz=w500"><img src="https://drive.google.com/thumbnail?id=1jQONyK_akReePz-ZOGv-ZAcupLRcKPzc&sz=w500"><img src="https://drive.google.com/thumbnail?id=1lOsDburNAnnFl-lgmDcFMERMnW8aGXV1&sz=w500"><img src="https://drive.google.com/thumbnail?id=1HrQeFHe2-OkawaMaR1fTfvztHOh452Ae&sz=w500"><img src="https://drive.google.com/thumbnail?id=1LwiU_HHmyn8VHI8hVBhLrXn3DTB8PFt5&sz=w500"><img src="https://drive.google.com/thumbnail?id=1RjS3Ay9WxT5Ftj28c3FYYhlexWA7UkHf&sz=w500"><div class="mcard"><b>כיתה טובה היא בית.<br>ואת הפכת אותנו למשפחה.</b><span>תודה, נטע ♥</span></div></div>
     <div class="gutter"></div>
   </div>
 
-  <div class="lbl"><span><span class="n">16</span> · נעילה · תמונה + חתימות</span><span class="d"><span class="pg">עמ' 30-31</span> · 25 × 50</span></div>
+  <div class="lbl"><span><span class="n">19</span> · נעילה · תמונה + חתימות</span><span class="d"><span class="pg">עמ' 36-37</span> · 25 × 50</span></div>
   <div class="leaf spread close">
     <img class="full bg" src="https://drive.google.com/thumbnail?id=1oE5cBqOSO_9M6de7LdjqqDPsCWV8cKsz&sz=w1600">
     <div class="cscrim"></div>
