@@ -45,8 +45,9 @@
   .cover .full{filter:saturate(1.05) contrast(1.02);transform:scale(1.2);transform-origin:center 32%}
   .cover .topfade{position:absolute;top:0;left:0;right:0;height:42%;z-index:2;background:linear-gradient(180deg,rgba(18,40,38,.5),transparent)}
   .cover .chip{position:absolute;top:7%;right:7%;z-index:4;background:rgba(255,253,248,.92);color:var(--coral-deep);font-weight:800;letter-spacing:.18em;font-size:clamp(8px,1.3vw,11px);padding:6px 13px;border-radius:30px}
-  .cover .band{position:absolute;left:0;right:0;bottom:0;z-index:4;background:var(--coral);color:var(--cream);padding:4% 8% 4.5%}
-  .cover .band:before{content:"";position:absolute;left:0;right:0;top:-26px;height:26px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.12))}
+  .cover .band{position:absolute;left:0;right:0;bottom:0;z-index:4;background:linear-gradient(0deg,rgba(244,98,58,.96) 0%,rgba(244,98,58,.88) 30%,rgba(244,98,58,.55) 62%,rgba(244,98,58,0) 100%);color:var(--cream);padding:18% 8% 5%}
+  .cover .band:before{display:none}
+  .cover h1,.cover .sub{text-shadow:0 1px 10px rgba(120,30,10,.35)}
   .cover h1{margin:.05em 0 .1em;font-family:'Suez One',serif;font-size:clamp(26px,5.2vw,46px);line-height:.92;color:#fffaf2}
   .cover .sub{font-size:clamp(9px,1.5vw,13px);letter-spacing:.14em;color:#ffe7d4;font-weight:400}
 
