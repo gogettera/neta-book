@@ -161,11 +161,12 @@
   .note{background:#fffdf7;border:1px solid #ece1cf;border-radius:7px;box-shadow:0 7px 18px -12px rgba(60,40,20,.5);padding:3.2% 4%;display:flex;flex-direction:column;position:relative}
   .note .nhd{display:flex;align-items:center;gap:9px;margin-bottom:4.5%}
   .note .nm{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:clamp(11px,1.7vw,16px);color:var(--coral-deep);display:flex;align-items:center;gap:6px}
-  .note .pp{flex:none;width:clamp(30px,4.4vw,48px);height:clamp(30px,4.4vw,48px);border-radius:50%;overflow:hidden;border:2px solid #efe4d1;background:#f6efe1}
-  .note .pp .pic{width:100%;height:100%}
+  .note .pp{position:absolute;top:-7%;left:-3%;width:clamp(54px,8.4vw,90px);height:clamp(54px,8.4vw,90px);background:#fff;padding:6px;border-radius:3px;box-shadow:0 9px 20px -8px rgba(60,40,20,.6);transform:rotate(-6deg);z-index:4}
+  .note .pp .pic{width:100%;height:100%;border-radius:1px;overflow:hidden;background:#f6efe1}
   .note .pp .pic.empty{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
-  .note .pp .pic.empty span{font-size:7px;color:#c2b49a;font-weight:600}
+  .note .pp .pic.empty span{font-size:8px;color:#c2b49a;font-weight:600}
   .note .pp img{width:100%;height:100%;object-fit:cover;display:block}
+  .note .nhd{min-height:clamp(48px,7vw,80px)}
   body.editing .note .pp .pic.empty:hover{outline:3px solid #f4623a;cursor:pointer}
   .note .nm .hh{width:12px;height:12px;color:var(--coral);flex:none}
   .note .lines{flex:1;min-height:0;line-height:2em;font-family:'Frank Ruhl Libre',serif;font-size:clamp(10px,1.4vw,14px);color:#4a443c;outline:none;background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(2em - 1px),#e6dcc7 calc(2em - 1px),#e6dcc7 2em)}
