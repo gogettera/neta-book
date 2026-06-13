@@ -766,14 +766,15 @@
     var cap=Math.min(hi,budget);
     var cols=packCap(cap);
     if(cols.length>K) cols=packCap(budget);
-    (function(){var L=cols.length; if(L<2) return;
+    (function(){ if(cols.length<2) return;
       function ch(a){var s=0;for(var x=0;x<a.length;x++)s+=a[x].h;return s+gap*Math.max(0,a.length-1);}
-      var guard=0;
-      while(cols[L-2].length>1 && guard++<30){
-        var cand=cols[L-2][cols[L-2].length-1];
-        var newLast=ch(cols[L-1])+(cols[L-1].length?gap:0)+cand.h;
-        if(ch(cols[L-1])<ch(cols[L-2])-cand.h && newLast<=budget){ cols[L-2].pop(); cols[L-1].unshift(cand); }
-        else break;
+      var changed=true, guard=0;
+      while(changed && guard++<400){ changed=false;
+        for(var i=0;i<cols.length-1;i++){
+          var a=cols[i], b=cols[i+1], ha=ch(a), hb=ch(b), d=Math.abs(ha-hb);
+          if(ha>hb && a.length>1){ var c=a[a.length-1], na=ha-c.h-gap, nb=hb+c.h+gap; if(Math.abs(na-nb)<d && nb<=budget){ a.pop(); b.unshift(c); changed=true; } }
+          else if(hb>ha && b.length>1){ var c2=b[0], nb2=hb-c2.h-gap, na2=ha+c2.h+gap; if(Math.abs(na2-nb2)<d && na2<=budget){ b.shift(); a.push(c2); changed=true; } }
+        }
       }
     })();
 
