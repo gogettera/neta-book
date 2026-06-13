@@ -763,6 +763,16 @@
     var cap=Math.min(hi,budget);
     var cols=packCap(cap);
     if(cols.length>K) cols=packCap(budget);
+    (function(){var L=cols.length; if(L<2) return;
+      function ch(a){var s=0;for(var x=0;x<a.length;x++)s+=a[x].h;return s+gap*Math.max(0,a.length-1);}
+      var guard=0;
+      while(cols[L-2].length>1 && guard++<30){
+        var cand=cols[L-2][cols[L-2].length-1];
+        var newLast=ch(cols[L-1])+(cols[L-1].length?gap:0)+cand.h;
+        if(ch(cols[L-1])<ch(cols[L-2])-cand.h && newLast<=budget){ cols[L-2].pop(); cols[L-1].unshift(cand); }
+        else break;
+      }
+    })();
 
     for(var s=0;s<cols.length;s+=2){
       var right=cols[s]||[], left=cols[s+1]||[];
