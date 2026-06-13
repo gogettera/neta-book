@@ -181,16 +181,16 @@
   .note.heart .hb{width:36%;height:36%;color:#fff}
   .note.heart .cl{font-family:'Suez One',serif;color:#fff;font-size:clamp(13px,2vw,20px);margin-top:5%}
   .ww{position:absolute;inset:0;background:var(--sand);display:grid;grid-template-columns:1fr 1fr}
-  .ww .wcol{padding:4.5% 4.2%;display:flex;flex-direction:column;gap:4%;overflow:hidden}
-  .ww .wcol-r{padding-left:5.5%}
-  .ww .wcol-l{padding-right:5.5%}
-  .wcard{background:#fffdf7;border:1px solid #ece1cf;border-radius:8px;box-shadow:0 6px 16px -10px rgba(60,40,20,.45);padding:4% 4.5%}
-  .wcard .whd{display:flex;align-items:center;gap:10px;margin-bottom:3.5%}
-  .wcard .wst{flex:none;width:clamp(34px,5vw,54px);height:clamp(34px,5vw,54px);border-radius:50%;overflow:hidden;border:2px solid #efe4d1;background:#f6efe1}
+  .ww .wcol{padding:3.4% 3.4%;display:flex;flex-direction:column;gap:2.6%;overflow:hidden}
+  .ww .wcol-r{padding-left:4.6%}
+  .ww .wcol-l{padding-right:4.6%}
+  .wcard{background:#fffdf7;border:1px solid #ece1cf;border-radius:8px;box-shadow:0 5px 13px -10px rgba(60,40,20,.45);padding:2.7% 3.4%}
+  .wcard .whd{display:flex;align-items:center;gap:9px;margin-bottom:2%}
+  .wcard .wst{flex:none;width:clamp(30px,4.3vw,46px);height:clamp(30px,4.3vw,46px);border-radius:50%;overflow:hidden;border:2px solid #efe4d1;background:#f6efe1}
   .wcard .wst img{width:100%;height:100%;object-fit:cover;display:block}
-  .wcard .wnm{font-family:'Frank Ruhl Libre',serif;font-weight:700;color:var(--coral-deep);font-size:clamp(12px,1.8vw,17px);display:flex;align-items:center;gap:6px}
-  .wcard .wnm .hh{width:12px;height:12px;color:var(--coral);flex:none}
-  .wcard .wtxt{font-family:'Frank Ruhl Libre',serif;font-size:clamp(10px,1.45vw,14px);line-height:1.55;color:#4a443c;white-space:pre-wrap}
+  .wcard .wnm{font-family:'Frank Ruhl Libre',serif;font-weight:700;color:var(--coral-deep);font-size:clamp(12px,1.7vw,16px);display:flex;align-items:center;gap:6px}
+  .wcard .wnm .hh{width:11px;height:11px;color:var(--coral);flex:none}
+  .wcard .wtxt{font-family:'Frank Ruhl Libre',serif;font-size:clamp(9.5px,1.35vw,13px);line-height:1.5;color:#4a443c;white-space:pre-wrap}
   .breath{position:absolute;inset:0;background:var(--sand);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:9% 12%}
   .breath .q{font-family:'Frank Ruhl Libre',serif;font-weight:500;font-size:clamp(20px,4vw,44px);line-height:1.3;color:var(--ink)}
   .breath .q em{font-style:normal;color:var(--coral)}
@@ -731,12 +731,39 @@
     document.querySelectorAll('.ww-leaf,.ww-lbl').forEach(function(x){x.remove();});
     var entries=[];
     ORDER.forEach(function(n){var e=data[n]; if(e&&(e.text||e.photoId)) entries.push({name:n,photoId:e.photoId,text:e.text||''});});
-    for(var k=0;k<entries.length;k+=4){
-      var grp=entries.slice(k,k+4);
+    if(!entries.length){return;}
+
+    // מודדים את הגובה האמיתי של כל כרטיס בעמודה ברוחב הסופי, ואז ארוזים צפוף
+    var mleaf=document.createElement('div'); mleaf.className='leaf spread';
+    mleaf.style.cssText='position:absolute;left:-99999px;top:0;visibility:hidden';
+    mleaf.innerHTML=`<div class="ww"><div class="wcol wcol-r" id="__mcol"></div><div class="wcol wcol-l"></div></div>`;
+    anchor.parentNode.appendChild(mleaf);
+    var mcol=mleaf.querySelector('#__mcol');
+    var cs=getComputedStyle(mcol);
+    var usable=mcol.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    var gap=parseFloat(cs.rowGap||cs.gap)||0;
+    entries.forEach(function(en){
+      var d=document.createElement('div'); d.innerHTML=cardHTML(en); var el=d.firstChild;
+      mcol.appendChild(el); en.h=el.offsetHeight;
+    });
+    mleaf.remove();
+    if(!usable||usable<10){usable=1e6;} // נפילה בטוחה אם המדידה נכשלה
+
+    // אריזה חמדנית: ממלאים כל עמודה עד למעלה
+    var budget=usable*0.97, cols=[], cur=[], curH=0;
+    entries.forEach(function(en){
+      var add=(cur.length?gap:0)+en.h;
+      if(cur.length && curH+add>budget){cols.push(cur);cur=[];curH=0;add=en.h;}
+      cur.push(en); curH+=add;
+    });
+    if(cur.length) cols.push(cur);
+
+    for(var s=0;s<cols.length;s+=2){
+      var right=cols[s]||[], left=cols[s+1]||[];
       var lbl=document.createElement('div'); lbl.className='lbl ww-lbl';
       lbl.innerHTML=`<span><span class="n">00</span> · מילים לנטע</span><span class="d"><span class="pg">עמ' 0</span> · 25 × 50</span>`;
       var leaf=document.createElement('div'); leaf.className='leaf spread ww-leaf';
-      leaf.innerHTML=`<div class="ww"><div class="wcol wcol-r">${colHTML(grp.slice(0,2))}</div><div class="wcol wcol-l">${colHTML(grp.slice(2,4))}</div></div><div class="gutter"></div>`;
+      leaf.innerHTML=`<div class="ww"><div class="wcol wcol-r">${colHTML(right)}</div><div class="wcol wcol-l">${colHTML(left)}</div></div><div class="gutter"></div>`;
       anchor.parentNode.insertBefore(lbl,anchor);
       anchor.parentNode.insertBefore(leaf,anchor);
     }
