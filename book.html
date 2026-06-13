@@ -755,28 +755,20 @@
     var budget=usable*0.93;
     var n=entries.length;
     function packCap(cap){var cs=[],cur=[],h=0;for(var i=0;i<n;i++){var e=entries[i],add=(cur.length?gap:0)+e.h;if(cur.length&&h+add>cap){cs.push(cur);cur=[];h=0;add=e.h;}cur.push(e);h+=add;}if(cur.length)cs.push(cur);return cs;}
-    var maxCard=0,sum=0; entries.forEach(function(e){if(e.h>maxCard)maxCard=e.h;sum+=e.h;}); sum+=gap*Math.max(0,n-1);
     var K=10;
     var atBudget=packCap(budget).length;
-    if(atBudget>K){ K=atBudget; if(K%2)K++; }
+    if(atBudget>K) K=atBudget;
+    if(K%2) K++;
     if(K>n) K=(n%2?n-1:n);
     if(K<1) K=1;
-    var lo=maxCard, hi=Math.max(maxCard,sum);
-    for(var it=0;it<44;it++){ var mid=(lo+hi)/2; if(packCap(mid).length<=K) hi=mid; else lo=mid; }
-    var cap=Math.min(hi,budget);
-    var cols=packCap(cap);
-    if(cols.length>K) cols=packCap(budget);
-    (function(){ if(cols.length<2) return;
-      function ch(a){var s=0;for(var x=0;x<a.length;x++)s+=a[x].h;return s+gap*Math.max(0,a.length-1);}
-      var changed=true, guard=0;
-      while(changed && guard++<400){ changed=false;
-        for(var i=0;i<cols.length-1;i++){
-          var a=cols[i], b=cols[i+1], ha=ch(a), hb=ch(b), d=Math.abs(ha-hb);
-          if(ha>hb && a.length>1){ var c=a[a.length-1], na=ha-c.h-gap, nb=hb+c.h+gap; if(Math.abs(na-nb)<d && nb<=budget){ a.pop(); b.unshift(c); changed=true; } }
-          else if(hb>ha && b.length>1){ var c2=b[0], nb2=hb-c2.h-gap, na2=ha+c2.h+gap; if(Math.abs(na2-nb2)<d && na2<=budget){ b.shift(); a.push(c2); changed=true; } }
-        }
-      }
-    })();
+    var sorted=entries.slice().sort(function(a,b){return b.h-a.h;});
+    var cols=[],colH=[]; for(var k=0;k<K;k++){cols.push([]);colH.push(0);}
+    sorted.forEach(function(e){
+      var best=-1,bk;
+      for(bk=0;bk<K;bk++){ var nh=colH[bk]+(cols[bk].length?gap:0)+e.h; if(nh<=budget && (best<0||colH[bk]<colH[best])) best=bk; }
+      if(best<0){ best=0; for(bk=1;bk<K;bk++) if(colH[bk]<colH[best]) best=bk; }
+      cols[best].push(e); colH[best]+=(cols[best].length>1?gap:0)+e.h;
+    });
 
     for(var s=0;s<cols.length;s+=2){
       var right=cols[s]||[], left=cols[s+1]||[];
