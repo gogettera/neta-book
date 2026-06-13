@@ -750,24 +750,19 @@
 
     // אריזה חמדנית: ממלאים כל עמודה עד למעלה
     var budget=usable*0.93;
-    var n=entries.length, H=0; entries.forEach(function(e){H+=e.h;}); H+=gap*Math.max(0,n-1);
-    function greedyCols(){var c=0,h=0;for(var i=0;i<n;i++){var a=(h?gap:0)+entries[i].h;if(h&&(h+a)>budget){c++;h=0;a=entries[i].h;}h+=a;}return n?c+1:0;}
-    var Kmin=greedyCols();
-    var K=Math.max(Kmin, 10);
-    if(K%2) K++;
+    var n=entries.length;
+    function packCap(cap){var cs=[],cur=[],h=0;for(var i=0;i<n;i++){var e=entries[i],add=(cur.length?gap:0)+e.h;if(cur.length&&h+add>cap){cs.push(cur);cur=[];h=0;add=e.h;}cur.push(e);h+=add;}if(cur.length)cs.push(cur);return cs;}
+    var maxCard=0,sum=0; entries.forEach(function(e){if(e.h>maxCard)maxCard=e.h;sum+=e.h;}); sum+=gap*Math.max(0,n-1);
+    var K=10;
+    var atBudget=packCap(budget).length;
+    if(atBudget>K){ K=atBudget; if(K%2)K++; }
     if(K>n) K=(n%2?n-1:n);
     if(K<1) K=1;
-    var Hh=0; entries.forEach(function(e){Hh+=e.h;});
-    var thr=Hh/K, cols=[], cur=[], curH=0;
-    for(var i=0;i<n;i++){
-      var e=entries[i], add=(cur.length?gap:0)+e.h;
-      var atLast=cols.length>=K-1;
-      var over=cur.length&&(curH+add>thr)&&!atLast;
-      var hard=cur.length&&(curH+add>budget);
-      if(over||hard){ cols.push(cur); cur=[]; curH=0; add=e.h; }
-      cur.push(e); curH+=add;
-    }
-    if(cur.length) cols.push(cur);
+    var lo=maxCard, hi=Math.max(maxCard,sum);
+    for(var it=0;it<44;it++){ var mid=(lo+hi)/2; if(packCap(mid).length<=K) hi=mid; else lo=mid; }
+    var cap=Math.min(hi,budget);
+    var cols=packCap(cap);
+    if(cols.length>K) cols=packCap(budget);
 
     for(var s=0;s<cols.length;s+=2){
       var right=cols[s]||[], left=cols[s+1]||[];
