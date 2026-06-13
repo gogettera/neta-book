@@ -734,8 +734,10 @@
     if(!entries.length){return;}
 
     // מודדים את הגובה האמיתי של כל כרטיס בעמודה ברוחב הסופי, ואז ארוזים צפוף
+    var sample=document.querySelector('.leaf.spread');
+    var sw=sample?sample.offsetWidth:0;
     var mleaf=document.createElement('div'); mleaf.className='leaf spread';
-    mleaf.style.cssText='position:absolute;left:-99999px;top:0;visibility:hidden';
+    mleaf.style.cssText='position:absolute;left:-99999px;top:0;visibility:hidden;'+(sw?('width:'+sw+'px;height:'+(sw/2)+'px;'):'');
     mleaf.innerHTML=`<div class="ww"><div class="wcol wcol-r" id="__mcol"></div><div class="wcol wcol-l"></div></div>`;
     anchor.parentNode.appendChild(mleaf);
     var mcol=mleaf.querySelector('#__mcol');
