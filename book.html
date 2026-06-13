@@ -755,12 +755,11 @@
     var budget=usable*0.93;
     var n=entries.length;
     function packCap(cap){var cs=[],cur=[],h=0;for(var i=0;i<n;i++){var e=entries[i],add=(cur.length?gap:0)+e.h;if(cur.length&&h+add>cap){cs.push(cur);cur=[];h=0;add=e.h;}cur.push(e);h+=add;}if(cur.length)cs.push(cur);return cs;}
-    var K=10;
-    var atBudget=packCap(budget).length;
-    if(atBudget>K) K=atBudget;
-    if(K%2) K++;
+    var fitBudget=usable*0.88;
+    var atBudget=packCap(fitBudget).length;
+    var K=atBudget; if(K%2) K++;
     if(K>n) K=(n%2?n-1:n);
-    if(K<1) K=1;
+    if(K<2) K=2;
     var sorted=entries.slice().sort(function(a,b){return b.h-a.h;});
     var cols=[],colH=[]; for(var k=0;k<K;k++){cols.push([]);colH.push(0);}
     sorted.forEach(function(e){
