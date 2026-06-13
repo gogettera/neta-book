@@ -389,18 +389,6 @@
     <div class="gutter"></div>
   </div>
 
-  <div class="lbl"><span><span class="n">06</span> · במספרים · עמוד אדיטוריאלי</span><span class="d"><span class="pg">עמ' 10-11</span> · 25 × 50</span></div>
-  <div class="leaf spread">
-    <div class="bignum">
-      <div class="ph"><img src="https://drive.google.com/thumbnail?id=1o1bVimHsvUsEJ9T4hIhOa-KjvGUoHc4u&sz=w1400"></div>
-      <div class="txt">
-        <div class="stat">730</div>
-        <h3>ימים של צחוק, למידה וחברוּת. ואינסוף חיבוקים.</h3>
-      </div>
-    </div>
-    <div class="gutter"></div>
-  </div>
-
   <div class="lbl"><span><span class="n">07</span> · מתחת לשמיים · דיפטיך</span><span class="d"><span class="pg">עמ' 12-13</span> · 25 × 50</span></div>
   <div class="leaf spread">
     <div class="sky">
@@ -761,12 +749,22 @@
     if(!usable||usable<10){usable=1e6;} // נפילה בטוחה אם המדידה נכשלה
 
     // אריזה חמדנית: ממלאים כל עמודה עד למעלה
-    var budget=usable*0.93, cols=[], cur=[], curH=0;
-    entries.forEach(function(en){
-      var add=(cur.length?gap:0)+en.h;
-      if(cur.length && curH+add>budget){cols.push(cur);cur=[];curH=0;add=en.h;}
+    var budget=usable*0.93;
+    var n=entries.length, H=0; entries.forEach(function(e){H+=e.h;}); H+=gap*Math.max(0,n-1);
+    function greedyCols(){var c=0,h=0;for(var i=0;i<n;i++){var a=(h?gap:0)+entries[i].h;if(h&&(h+a)>budget){c++;h=0;a=entries[i].h;}h+=a;}return n?c+1:0;}
+    var Kmin=greedyCols();
+    var K=Math.max(Kmin, Math.ceil(H/(usable*0.80)));
+    if(K%2) K++;
+    if(K>n) K=n;
+    if(K<1) K=1;
+    var target=H/K, cols=[], cur=[], curH=0, colsUsed=0;
+    for(var i=0;i<n;i++){
+      var en=entries[i], add=(cur.length?gap:0)+en.h, colsLeft=K-colsUsed, cardsLeft=n-i;
+      var hardOver=cur.length&&(curH+add>budget);
+      var softBal=cur.length&&(colsLeft>1)&&(curH+add>target)&&(cardsLeft>colsLeft-1);
+      if(hardOver||softBal){cols.push(cur);colsUsed++;cur=[];curH=0;add=en.h;}
       cur.push(en); curH+=add;
-    });
+    }
     if(cur.length) cols.push(cur);
 
     for(var s=0;s<cols.length;s+=2){
