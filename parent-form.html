@@ -17,6 +17,7 @@ label:first-child{margin-top:0}
 select,textarea{width:100%;font-family:'Heebo',sans-serif;font-size:16px;border:1.5px solid #e3d8c4;border-radius:10px;padding:12px;background:#fff;color:var(--ink)}
 textarea{min-height:110px;resize:vertical;line-height:1.5}
 select:focus,textarea:focus{outline:none;border-color:var(--coral)}
+.editnote{display:none;margin-top:9px;background:#fff1d9;border:1px solid #f0d49a;color:#8a5a16;font-size:13.5px;font-weight:500;border-radius:9px;padding:9px 11px;text-align:center}
 .drop{border:2px dashed #e0d4be;border-radius:12px;padding:18px;text-align:center;background:#fffaf0;cursor:pointer;transition:.15s}
 .drop:hover{border-color:var(--coral);background:#fff6ea}
 .drop input{display:none}
@@ -32,7 +33,7 @@ select:focus,textarea:focus{outline:none;border-color:var(--coral)}
 .bok{background:var(--coral);color:#fff}
 .bre{background:#efe7d8;color:#5a534a}
 .preview{margin-top:12px;text-align:center;display:none}
-.preview img{width:150px;height:150px;object-fit:cover;border-radius:50%;border:4px solid #fff;box-shadow:0 6px 16px -8px rgba(0,0,0,.4)}
+.preview img{width:150px;height:150px;object-fit:cover;border-radius:50%;border:4px solid #fff;box-shadow:0 6px 16px -8px rgba(0,0,0,.4);background:#eee}
 .preview .re{display:block;margin-top:8px;color:var(--coral-deep);font-weight:700;font-size:13px;cursor:pointer}
 .btn{margin-top:22px;width:100%;background:var(--coral);color:#fff;border:none;border-radius:30px;padding:15px;font-family:'Heebo',sans-serif;font-weight:800;font-size:17px;cursor:pointer;box-shadow:0 10px 22px -10px rgba(244,98,58,.7)}
 .btn:disabled{opacity:.55;cursor:default}
@@ -55,6 +56,7 @@ select:focus,textarea:focus{outline:none;border-color:var(--coral)}
     <select id="kid">
       <option value="" disabled selected>בחרו מהרשימה…</option>
     </select>
+    <div class="editnote" id="editnote">כבר נשלחו פרטים עבור הילד/ה הזה — טענו אותם לעריכה. עדכנו ושלחו שוב.</div>
 
     <label>תמונת פרופיל של הילד/ה</label>
     <label class="drop" id="drop" for="photo">
@@ -100,19 +102,41 @@ var NAMES=["ארי מאיר מרקוביץ","ארי ליידר","אנג'לינה
 var sel=document.getElementById('kid');
 NAMES.forEach(function(n){var o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o);});
 
-var photoData='', cropper=null;
+// טוען הגשות קיימות (כדי לאפשר עריכה)
+var subData={};
+(function(){var cb='pcb_'+Math.floor(Math.random()*1e9);window[cb]=function(d){subData=d||{};};
+ var sc=document.createElement('script');sc.src=GAS+'?callback='+cb+'&t='+Date.now();document.head.appendChild(sc);})();
+
+var photoData='', existingPhoto=false, cropper=null;
 var drop=document.getElementById('drop'), cropwrap=document.getElementById('cropwrap'),
-    cimg=document.getElementById('cimg'), preview=document.getElementById('preview');
+    cimg=document.getElementById('cimg'), preview=document.getElementById('preview'),
+    txt=document.getElementById('text'), editnote=document.getElementById('editnote');
 
 function resetCrop(){ if(cropper){cropper.destroy();cropper=null;} }
+function clearPhoto(){ photoData=''; existingPhoto=false; resetCrop();
+  cropwrap.style.display='none'; preview.style.display='none'; drop.style.display='block';
+  document.getElementById('photo').value=''; }
+
+// בחירת ילד — אם כבר נשלח, לטעון לעריכה
+sel.addEventListener('change',function(){
+  clearPhoto(); txt.value=''; editnote.style.display='none';
+  var e=subData[sel.value];
+  if(e && (e.text || e.photoId)){
+    editnote.style.display='block';
+    if(e.text) txt.value=e.text;
+    if(e.photoId){
+      existingPhoto=true;
+      document.getElementById('previewImg').src='https://drive.google.com/thumbnail?id='+e.photoId+'&sz=w300';
+      drop.style.display='none'; preview.style.display='block';
+    }
+  }
+});
 
 document.getElementById('photo').addEventListener('change',function(e){
   var f=e.target.files[0]; if(!f) return;
   var url=URL.createObjectURL(f);
-  drop.style.display='none'; preview.style.display='none';
-  cropwrap.style.display='block';
-  resetCrop();
-  cimg.src=url;
+  drop.style.display='none'; preview.style.display='none'; cropwrap.style.display='block';
+  resetCrop(); cimg.src=url;
   cimg.onload=function(){
     cropper=new Cropper(cimg,{aspectRatio:1,viewMode:1,dragMode:'move',autoCropArea:1,background:false,responsive:true,guides:false,center:true});
   };
@@ -121,39 +145,33 @@ document.getElementById('photo').addEventListener('change',function(e){
 document.getElementById('cropok').addEventListener('click',function(){
   if(!cropper) return;
   var canvas=cropper.getCroppedCanvas({width:800,height:800,imageSmoothingQuality:'high'});
-  photoData=canvas.toDataURL('image/jpeg',0.85);
+  photoData=canvas.toDataURL('image/jpeg',0.85); existingPhoto=false;
   document.getElementById('previewImg').src=photoData;
-  resetCrop();
-  cropwrap.style.display='none';
-  preview.style.display='block';
+  resetCrop(); cropwrap.style.display='none'; preview.style.display='block';
 });
 
-function rePick(){
-  photoData=''; resetCrop();
-  cropwrap.style.display='none'; preview.style.display='none';
-  drop.style.display='block';
-  document.getElementById('photo').value='';
-}
-document.getElementById('cropcancel').addEventListener('click',rePick);
-document.getElementById('repick').addEventListener('click',rePick);
+document.getElementById('cropcancel').addEventListener('click',clearPhoto);
+document.getElementById('repick').addEventListener('click',clearPhoto);
 
 document.getElementById('send').addEventListener('click',function(){
-  var kid=sel.value, text=document.getElementById('text').value.trim();
+  var kid=sel.value, text=txt.value.trim();
   var err=document.getElementById('err'); err.style.display='none';
   if(!kid){err.textContent='בחרו את שם הילד/ה';err.style.display='block';return;}
-  if(!photoData && !text){err.textContent='הוסיפו תמונה או משפט';err.style.display='block';return;}
+  if(!photoData && !text && !existingPhoto){err.textContent='הוסיפו תמונה או משפט';err.style.display='block';return;}
   var btn=document.getElementById('send'); btn.disabled=true; btn.textContent='שולח…';
+  // photoData ריק = שומר על התמונה הקיימת בשרת
   fetch(GAS,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},
     body:JSON.stringify({kid:kid,text:text,photo:photoData})})
-    .then(function(){finish();}).catch(function(){finish();});
+    .then(function(){finish(kid,text);}).catch(function(){finish(kid,text);});
 });
-function finish(){
+function finish(kid,text){
+  subData[kid]=subData[kid]||{}; subData[kid].text=text; // עדכון מקומי
   document.getElementById('form').style.display='none';
   document.getElementById('done').style.display='block';
   window.scrollTo(0,0);
 }
 document.getElementById('again').addEventListener('click',function(){
-  sel.value=''; document.getElementById('text').value=''; rePick();
+  sel.value=''; txt.value=''; clearPhoto(); editnote.style.display='none';
   var btn=document.getElementById('send'); btn.disabled=false; btn.textContent='שליחה';
   document.getElementById('done').style.display='none';
   document.getElementById('form').style.display='block';
