@@ -761,7 +761,7 @@
     if(!usable||usable<10){usable=1e6;} // נפילה בטוחה אם המדידה נכשלה
 
     // אריזה חמדנית: ממלאים כל עמודה עד למעלה
-    var budget=usable*0.97, cols=[], cur=[], curH=0;
+    var budget=usable*0.93, cols=[], cur=[], curH=0;
     entries.forEach(function(en){
       var add=(cur.length?gap:0)+en.h;
       if(cur.length && curH+add>budget){cols.push(cur);cur=[];curH=0;add=en.h;}
@@ -782,6 +782,7 @@
   }
   function load(){var cb='wwcb_'+Math.floor(Math.random()*1e9);window[cb]=function(d){try{build(d);}catch(e){}};var sc=document.createElement('script');sc.src=SUB+'?callback='+cb+'&t='+Date.now();document.body.appendChild(sc);}
   if(document.readyState!=='loading') load(); else document.addEventListener('DOMContentLoaded',load);
+  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(function(){setTimeout(load,60);});}
   setTimeout(load,2800);
 })();
 </script>
