@@ -192,6 +192,10 @@
   .wcard .wnm{font-family:'Frank Ruhl Libre',serif;font-weight:700;color:var(--coral-deep);font-size:clamp(12px,1.7vw,16px);display:flex;align-items:center;gap:6px}
   .wcard .wnm .hh{width:11px;height:11px;color:var(--coral);flex:none}
   .wcard .wtxt{font-family:'Frank Ruhl Libre',serif;font-size:clamp(9.5px,1.35vw,13px);line-height:1.5;color:#4a443c;white-space:pre-wrap}
+  .wcard.pending{background:#f3efe6;border:1px dashed #d6cab4;box-shadow:none}
+  .wcard.pending .wnm{color:#a59b89}
+  .wcard.pending .wnm .hh{display:none}
+  .wcard .wpend{font-family:'Frank Ruhl Libre',serif;font-size:clamp(9px,1.25vw,12px);color:#b9af9d;margin-top:1.5%}
   .breath{position:absolute;inset:0;background:var(--sand);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:9% 12%}
   .breath .q{font-family:'Frank Ruhl Libre',serif;font-weight:500;font-size:clamp(20px,4vw,44px);line-height:1.3;color:var(--ink)}
   .breath .q em{font-style:normal;color:var(--coral)}
@@ -717,12 +721,17 @@
 (function(){
   var SUB='https://script.google.com/macros/s/AKfycbx54WOo7vgTuQi31Y5iWu8Z9G1IwewgTyQ6Z409eGzkwZXvFeTvb5IlNvUf6UgKL4FU/exec';
   var ORDER=["ארי מאיר מרקוביץ", "ארי ליידר", "אנג'לינה קירש", "אמי דגן", "אלה מאוטנר", "איתן בכר", "אייר מאור", "אור שריקי", "אגם שרון כהן", "אביגיל מוזס", "נח צ'צ'יק", "נועם טוביאנה", "נבו כהן-חן", "מיילי עוז", "ליאו השנטי מנדל", "יונתן זיגל", "יהלי לוי", "טיילור בן חיון", "סדי לסדיי", "גילי קטסטר", "תור שמעון", "קאי רואי", "עמנואל בורשטיין", "עומר איגר", "נעמי בנימין", "נעמי בלסקי"];
+  var DISP={"ארי מאיר מרקוביץ":"ארי מרקוביץ"};
   function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
   function cardHTML(c){
+    var disp=DISP[c.name]||c.name;
+    if(c.pending){
+      return `<div class="wcard pending"><div class="whd"><div class="wnm">${esc(disp)}</div></div><div class="wpend">טרם נשלח ✎</div></div>`;
+    }
     var pic=!!c.photoId;
     var st=pic?`<div class="wst"><img src="https://drive.google.com/thumbnail?id=${c.photoId}&sz=w400"></div>`:'';
     var tx=c.text?`<div class="wtxt">${esc(c.text)}</div>`:'';
-    return `<div class="wcard${pic?' haspic':''}">${st}<div class="whd"><div class="wnm"><svg class="hh"><use href="#heart"/></svg>${esc(c.name)}</div></div>${tx}</div>`;
+    return `<div class="wcard${pic?' haspic':''}">${st}<div class="whd"><div class="wnm"><svg class="hh"><use href="#heart"/></svg>${esc(disp)}</div></div>${tx}</div>`;
   }
   function colHTML(cards){return cards.map(cardHTML).join('');}
   function pad2(n){return ('0'+n).slice(-2);}
@@ -732,7 +741,8 @@
     var anchor=document.getElementById('wwanchor'); if(!anchor) return;
     document.querySelectorAll('.ww-leaf,.ww-lbl').forEach(function(x){x.remove();});
     var entries=[];
-    ORDER.forEach(function(n){var e=data[n]; if(e&&(e.text||e.photoId)) entries.push({name:n,photoId:e.photoId,text:e.text||''});});
+    ORDER.forEach(function(n){var e=data[n]; var has=e&&(e.text||e.photoId);
+      entries.push(has?{name:n,photoId:e.photoId,text:e.text||''}:{name:n,pending:true});});
     if(!entries.length){return;}
 
     // מודדים את הגובה האמיתי של כל כרטיס בעמודה ברוחב הסופי, ואז ארוזים צפוף
