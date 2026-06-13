@@ -757,12 +757,15 @@
     if(K%2) K++;
     if(K>n) K=(n%2?n-1:n);
     if(K<1) K=1;
-    var per=H/K, cols=[], cur=[], cum=0;
+    var Hh=0; entries.forEach(function(e){Hh+=e.h;});
+    var per=Hh/K, cols=[], cur=[], curH=0, cum=0;
     for(var i=0;i<n;i++){
-      cur.push(entries[i]);
-      cum+=entries[i].h+(i>0?gap:0);
+      var e=entries[i], add=(cur.length?gap:0)+e.h;
       var made=cols.length, leftAfter=K-made-1, cardsAfter=n-1-i;
-      if(made<K-1 && cum>=per*(made+1) && cardsAfter>=leftAfter && cardsAfter>0){ cols.push(cur); cur=[]; }
+      var hardOver=cur.length&&(curH+add>budget);
+      var boundary=cur.length&&(made<K-1)&&((cum+e.h)>=per*(made+1))&&(cardsAfter>=leftAfter)&&(cardsAfter>0);
+      if(hardOver||boundary){ cols.push(cur); cur=[]; curH=0; add=e.h; }
+      cur.push(e); curH+=add; cum+=e.h;
     }
     if(cur.length) cols.push(cur);
 
