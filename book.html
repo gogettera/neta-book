@@ -726,8 +726,11 @@
     var anchor=document.getElementById('wwanchor'); if(!anchor) return;
     document.querySelectorAll('.ww-leaf,.ww-lbl').forEach(function(x){x.remove();});
     var entries=[];
+    var GENERIC=["תודה על שנתיים מדהימות, נטע. נאהב אותך תמיד ❤️","נטע, תודה על הכל. נזכור אותך לנצח ❤️","המורה הכי טובה שיש. תודה על הכל, נטע ❤️"];
+    var gi=0;
     ORDER.forEach(function(n){var e=data[n]; var has=e&&(e.text||e.photoId);
-      entries.push(has?{name:n,photoId:e.photoId,text:e.text||''}:{name:n,pending:true});});
+      if(has){ entries.push({name:n,photoId:e.photoId,text:e.text||''}); }
+      else { entries.push({name:n,text:GENERIC[gi%GENERIC.length]}); gi++; }});
     if(!entries.length){return;}
 
     // מודדים את הגובה האמיתי של כל כרטיס בעמודה ברוחב הסופי, ואז ארוזים צפוף
