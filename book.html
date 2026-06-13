@@ -753,17 +753,16 @@
     var n=entries.length, H=0; entries.forEach(function(e){H+=e.h;}); H+=gap*Math.max(0,n-1);
     function greedyCols(){var c=0,h=0;for(var i=0;i<n;i++){var a=(h?gap:0)+entries[i].h;if(h&&(h+a)>budget){c++;h=0;a=entries[i].h;}h+=a;}return n?c+1:0;}
     var Kmin=greedyCols();
-    var K=Math.max(Kmin, Math.ceil(H/(usable*0.80)));
+    var K=Math.max(Kmin, Math.ceil(H/(usable*0.82)));
     if(K%2) K++;
-    if(K>n) K=n;
+    if(K>n) K=(n%2?n-1:n);
     if(K<1) K=1;
-    var target=H/K, cols=[], cur=[], curH=0, colsUsed=0;
+    var per=H/K, cols=[], cur=[], cum=0;
     for(var i=0;i<n;i++){
-      var en=entries[i], add=(cur.length?gap:0)+en.h, colsLeft=K-colsUsed, cardsLeft=n-i;
-      var hardOver=cur.length&&(curH+add>budget);
-      var softBal=cur.length&&(colsLeft>1)&&(curH+add>target)&&(cardsLeft>colsLeft-1);
-      if(hardOver||softBal){cols.push(cur);colsUsed++;cur=[];curH=0;add=en.h;}
-      cur.push(en); curH+=add;
+      cur.push(entries[i]);
+      cum+=entries[i].h+(i>0?gap:0);
+      var made=cols.length, leftAfter=K-made-1, cardsAfter=n-1-i;
+      if(made<K-1 && cum>=per*(made+1) && cardsAfter>=leftAfter && cardsAfter>0){ cols.push(cur); cur=[]; }
     }
     if(cur.length) cols.push(cur);
 
