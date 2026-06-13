@@ -190,6 +190,7 @@
   .wcard .wnm{font-family:'Frank Ruhl Libre',serif;font-weight:700;color:var(--coral-deep);font-size:clamp(12px,1.7vw,16px);margin-bottom:1.5%}
   .wcard .wnm .hh{display:inline-block;width:11px;height:11px;vertical-align:-1px;margin-left:5px;color:var(--coral)}
   .wcard .wtxt{font-family:'Frank Ruhl Libre',serif;font-size:clamp(9.5px,1.35vw,13px);line-height:1.55;color:#4a443c;white-space:pre-wrap}
+  .wfill{flex:0 0 auto;border-radius:8px;border:1px solid #ece1cf;box-shadow:0 5px 13px -10px rgba(60,40,20,.45);background-size:cover;background-position:center;background-repeat:no-repeat}
   .wcard.pending{background:#f3efe6;border:1px dashed #d6cab4;box-shadow:none}
   .wcard.pending .wnm{color:#a59b89}
   .wcard.pending .wnm .hh{display:none}
@@ -710,6 +711,7 @@
   var DISP={"ארי מאיר מרקוביץ":"ארי מרקוביץ","סדי לסדיי":"טדי לסדיי"};
   function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
   function cardHTML(c){
+    if(c.filler){ return `<div class="wfill" style="height:${Math.round(c.h)}px;background-image:url('${c.img}')"></div>`; }
     var disp=DISP[c.name]||c.name;
     if(c.pending){
       return `<div class="wcard pending"><div class="wnm">${esc(disp)}</div><div class="wpend">טרם נשלח ✎</div></div>`;
@@ -766,6 +768,22 @@
       for(bk=0;bk<K;bk++){ var nh=colH[bk]+(cols[bk].length?gap:0)+e.h; if(nh<=budget && (best<0||colH[bk]<colH[best])) best=bk; }
       if(best<0){ best=0; for(bk=1;bk<K;bk++) if(colH[bk]<colH[best]) best=bk; }
       cols[best].push(e); colH[best]+=(cols[best].length>1?gap:0)+e.h;
+    });
+
+    // ממלאים את הרווח הלבן בתחתית כל עמודה בתמונה של בית הספר / השכונה
+    var SCHOOL=[
+      "https://ik.imagekit.io/gsmy1wvrd/School/building/20240806_091701.png",
+      "https://ik.imagekit.io/gsmy1wvrd/School/%D7%9E%D7%91%D7%A0%D7%941.jpg",
+      "https://ik.imagekit.io/gsmy1wvrd/School/Neve%20tzedek/%D7%A1%D7%95%D7%96%D7%9F.jpeg",
+      "https://ik.imagekit.io/gsmy1wvrd/School/%D7%9E%D7%91%D7%A0%D7%94%204.jpg",
+      "https://ik.imagekit.io/gsmy1wvrd/School/Neve%20tzedek/SEG_5803_%D7%9E%D7%95%D7%96%D7%99%D7%90%D7%95%D7%9F_%D7%A0%D7%97%D7%95%D7%9D_%D7%92%D7%95%D7%98%D7%9E%D7%9F.jpg",
+      "https://ik.imagekit.io/gsmy1wvrd/School/%D7%9E%D7%91%D7%A0%D7%94%203.jpg"
+    ];
+    var fi=0;
+    cols.forEach(function(col){
+      var used=0; col.forEach(function(c){used+=c.h;}); used+=gap*Math.max(0,col.length-1);
+      var fh=Math.round(usable*0.975 - used - gap);
+      if(fh >= usable*0.12){ col.push({filler:true,h:fh,img:SCHOOL[fi%SCHOOL.length]}); fi++; }
     });
 
     for(var s=0;s<cols.length;s+=2){
