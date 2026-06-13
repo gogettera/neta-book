@@ -184,7 +184,7 @@
   .ww .wcol{padding:3.6% 3.4%;display:flex;flex-direction:column;gap:3%;overflow:hidden}
   .ww .wcol-r{padding-left:4.6%}
   .ww .wcol-l{padding-right:4.6%}
-  .wcard{background:#fffdf7;border:1px solid #ece1cf;border-radius:8px;box-shadow:0 5px 13px -10px rgba(60,40,20,.45);padding:3% 3.4%;display:flow-root;min-height:clamp(54px,7.4vw,80px)}
+  .wcard{flex:0 0 auto;background:#fffdf7;border:1px solid #ece1cf;border-radius:8px;box-shadow:0 5px 13px -10px rgba(60,40,20,.45);padding:3% 3.4%;display:flow-root;min-height:clamp(54px,7.4vw,80px)}
   .wcard .wph{float:right;shape-outside:circle(50%);shape-margin:10px;width:clamp(58px,7.7vw,82px);height:clamp(58px,7.7vw,82px);border-radius:50%;overflow:hidden;border:2px solid #f0e4d0;background:#f6efe1;margin:0 0 6px 12px}
   .wcard .wph img{width:100%;height:100%;object-fit:cover;display:block}
   .wcard .wnm{font-family:'Frank Ruhl Libre',serif;font-weight:700;color:var(--coral-deep);font-size:clamp(12px,1.7vw,16px);margin-bottom:1.5%}
@@ -752,11 +752,10 @@
     if(!usable||usable<10){usable=1e6;} // נפילה בטוחה אם המדידה נכשלה
 
     // אריזה חמדנית: ממלאים כל עמודה עד למעלה
-    var budget=usable*0.93;
+    var budget=usable*0.84;
     var n=entries.length;
     function packCap(cap){var cs=[],cur=[],h=0;for(var i=0;i<n;i++){var e=entries[i],add=(cur.length?gap:0)+e.h;if(cur.length&&h+add>cap){cs.push(cur);cur=[];h=0;add=e.h;}cur.push(e);h+=add;}if(cur.length)cs.push(cur);return cs;}
-    var fitBudget=usable*0.88;
-    var atBudget=packCap(fitBudget).length;
+    var atBudget=packCap(budget).length;
     var K=atBudget; if(K%2) K++;
     if(K>n) K=(n%2?n-1:n);
     if(K<2) K=2;
