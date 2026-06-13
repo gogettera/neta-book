@@ -752,7 +752,7 @@
     if(!usable||usable<10){usable=1e6;} // נפילה בטוחה אם המדידה נכשלה
 
     // אריזה חמדנית: ממלאים כל עמודה עד למעלה
-    var budget=usable*0.84;
+    var budget=usable*0.90;
     var n=entries.length;
     function packCap(cap){var cs=[],cur=[],h=0;for(var i=0;i<n;i++){var e=entries[i],add=(cur.length?gap:0)+e.h;if(cur.length&&h+add>cap){cs.push(cur);cur=[];h=0;add=e.h;}cur.push(e);h+=add;}if(cur.length)cs.push(cur);return cs;}
     var atBudget=packCap(budget).length;
