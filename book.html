@@ -791,6 +791,20 @@
       cols[best].push(e); colH[best]+=(cols[best].length>1?gap:0)+e.h;
     });
 
+    // איזון: מזיזים כרטיסים מהעמודה המלאה לריקה כדי שלא תישאר עמודה כמעט ריקה (הסדר לא משנה)
+    function chH(c){var s=0;for(var z=0;z<c.length;z++)s+=c[z].h;return s+gap*Math.max(0,c.length-1);}
+    var rg=0;
+    while(rg++<300){
+      var hi=0,lo=0;
+      for(var k=1;k<cols.length;k++){ if(chH(cols[k])>chH(cols[hi]))hi=k; if(chH(cols[k])<chH(cols[lo]))lo=k; }
+      if(hi===lo||cols[hi].length<=1) break;
+      var hc=cols[hi], lc=cols[lo], mi=0;
+      for(var j=1;j<hc.length;j++) if(hc[j].h<hc[mi].h) mi=j;
+      var card=hc[mi];
+      var newHi=chH(hc)-card.h-gap, newLo=chH(lc)+card.h+gap;
+      if(newLo<=budget && Math.max(newHi,newLo) < chH(hc)-2){ hc.splice(mi,1); lc.push(card); } else break;
+    }
+
     for(var s=0;s<cols.length;s+=2){
       var right=cols[s]||[], left=cols[s+1]||[];
       var lbl=document.createElement('div'); lbl.className='lbl ww-lbl';
