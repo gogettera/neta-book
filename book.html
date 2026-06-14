@@ -191,6 +191,12 @@
   .wcard .wnm .hh{display:inline-block;width:11px;height:11px;vertical-align:-1px;margin-left:5px;color:var(--coral)}
   .wcard .wtxt{font-family:'Frank Ruhl Libre',serif;font-size:clamp(9.5px,1.35vw,13px);line-height:1.55;color:#4a443c;white-space:pre-wrap}
   .wfill{flex:1 1 auto;min-height:0;border-radius:8px;border:1px solid #ece1cf;box-shadow:0 5px 13px -10px rgba(60,40,20,.45);background-size:cover;background-position:center;background-repeat:no-repeat}
+  .schoolg{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:1.4%;padding:1.8%;background:var(--sand)}
+  .schoolg .ph{overflow:hidden;border-radius:6px;background:#e8e1d4}
+  .schoolg .ph img{width:100%;height:100%;object-fit:cover;display:block}
+  .schoolg .sc{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:var(--coral);color:#fff;border-radius:8px;padding:4%}
+  .schoolg .sc h3{font-family:'Suez One',serif;font-size:clamp(16px,2.7vw,34px);margin:0;line-height:1.1}
+  .schoolg .sc span{font-family:'Frank Ruhl Libre',serif;font-size:clamp(11px,1.5vw,17px);margin-top:7%;opacity:.95}
   .wcard.pending{background:#f3efe6;border:1px dashed #d6cab4;box-shadow:none}
   .wcard.pending .wnm{color:#a59b89}
   .wcard.pending .wnm .hh{display:none}
@@ -425,6 +431,19 @@
       <div class="o" style="width:16%;aspect-ratio:1;left:2%;top:38%"><img src="https://drive.google.com/thumbnail?id=1aRs0MrU2eyfvrMQhbQbtcMRpKChHq11L&sz=w700"></div>
       <div class="d" style="left:50%;top:15%;width:5%"><svg viewBox="0 0 24 24"><use href="#star"/></svg></div>
       <div class="d" style="left:34%;top:43%;width:4.5%"><svg viewBox="0 0 24 24"><use href="#spark"/></svg></div>
+    </div>
+    <div class="gutter"></div>
+  </div>
+
+  <div class="lbl"><span><span class="n">10</span> · בית הספר שלנו · נווה צדק</span><span class="d"><span class="pg">עמ' 18-19</span> · 25 × 50</span></div>
+  <div class="leaf spread">
+    <div class="schoolg">
+      <div class="ph"><img src="https://ik.imagekit.io/gsmy1wvrd/School/building/20240806_091701.png"></div>
+      <div class="ph"><img src="https://ik.imagekit.io/gsmy1wvrd/School/%D7%9E%D7%91%D7%A0%D7%941.jpg"></div>
+      <div class="sc"><h3>בית הספר שלנו</h3><span>נווה צדק · תל אביב</span></div>
+      <div class="ph"><img src="https://ik.imagekit.io/gsmy1wvrd/School/%D7%9E%D7%91%D7%A0%D7%94%204.jpg"></div>
+      <div class="ph"><img src="https://ik.imagekit.io/gsmy1wvrd/School/Neve%20tzedek/SEG_5803_%D7%9E%D7%95%D7%96%D7%99%D7%90%D7%95%D7%9F_%D7%A0%D7%97%D7%95%D7%9D_%D7%92%D7%95%D7%98%D7%9E%D7%9F.jpg"></div>
+      <div class="ph"><img src="https://ik.imagekit.io/gsmy1wvrd/School/Neve%20tzedek/%D7%A1%D7%95%D7%96%D7%9F.jpeg"></div>
     </div>
     <div class="gutter"></div>
   </div>
@@ -756,7 +775,7 @@
     if(!usable||usable<10){usable=1e6;} // נפילה בטוחה אם המדידה נכשלה
 
     // אריזה חמדנית: ממלאים כל עמודה עד למעלה
-    var budget=usable*0.90;
+    var budget=usable*0.95;
     var n=entries.length;
     function packCap(cap){var cs=[],cur=[],h=0;for(var i=0;i<n;i++){var e=entries[i],add=(cur.length?gap:0)+e.h;if(cur.length&&h+add>cap){cs.push(cur);cur=[];h=0;add=e.h;}cur.push(e);h+=add;}if(cur.length)cs.push(cur);return cs;}
     var atBudget=packCap(budget).length;
@@ -770,22 +789,6 @@
       for(bk=0;bk<K;bk++){ var nh=colH[bk]+(cols[bk].length?gap:0)+e.h; if(nh<=budget && (best<0||colH[bk]<colH[best])) best=bk; }
       if(best<0){ best=0; for(bk=1;bk<K;bk++) if(colH[bk]<colH[best]) best=bk; }
       cols[best].push(e); colH[best]+=(cols[best].length>1?gap:0)+e.h;
-    });
-
-    // ממלאים את הרווח הלבן בתחתית כל עמודה בתמונה של בית הספר / השכונה
-    var SCHOOL=[
-      "https://ik.imagekit.io/gsmy1wvrd/School/building/20240806_091701.png",
-      "https://ik.imagekit.io/gsmy1wvrd/School/%D7%9E%D7%91%D7%A0%D7%941.jpg",
-      "https://ik.imagekit.io/gsmy1wvrd/School/Neve%20tzedek/%D7%A1%D7%95%D7%96%D7%9F.jpeg",
-      "https://ik.imagekit.io/gsmy1wvrd/School/%D7%9E%D7%91%D7%A0%D7%94%204.jpg",
-      "https://ik.imagekit.io/gsmy1wvrd/School/Neve%20tzedek/SEG_5803_%D7%9E%D7%95%D7%96%D7%99%D7%90%D7%95%D7%9F_%D7%A0%D7%97%D7%95%D7%9D_%D7%92%D7%95%D7%98%D7%9E%D7%9F.jpg",
-      "https://ik.imagekit.io/gsmy1wvrd/School/%D7%9E%D7%91%D7%A0%D7%94%203.jpg"
-    ];
-    var fi=0;
-    cols.forEach(function(col){
-      var used=0; col.forEach(function(c){used+=c.h;}); used+=gap*Math.max(0,col.length-1);
-      var fh=Math.round(usable*0.975 - used - gap);
-      if(fh >= usable*0.32){ col.push({filler:true,h:fh,img:SCHOOL[fi%SCHOOL.length]}); fi++; }
     });
 
     for(var s=0;s<cols.length;s+=2){
