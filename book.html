@@ -435,19 +435,6 @@
     <div class="gutter"></div>
   </div>
 
-  <div class="lbl"><span><span class="n">10</span> · בית הספר שלנו · נווה צדק</span><span class="d"><span class="pg">עמ' 18-19</span> · 25 × 50</span></div>
-  <div class="leaf spread">
-    <div class="schoolg">
-      <div class="ph"><img src="https://ik.imagekit.io/gsmy1wvrd/School/building/20240806_091701.png"></div>
-      <div class="ph"><img src="https://ik.imagekit.io/gsmy1wvrd/School/%D7%9E%D7%91%D7%A0%D7%941.jpg"></div>
-      <div class="sc"><h3>בית הספר שלנו</h3><span>נווה צדק · תל אביב</span></div>
-      <div class="ph"><img src="https://ik.imagekit.io/gsmy1wvrd/School/%D7%9E%D7%91%D7%A0%D7%94%204.jpg"></div>
-      <div class="ph"><img src="https://ik.imagekit.io/gsmy1wvrd/School/Neve%20tzedek/SEG_5803_%D7%9E%D7%95%D7%96%D7%99%D7%90%D7%95%D7%9F_%D7%A0%D7%97%D7%95%D7%9D_%D7%92%D7%95%D7%98%D7%9E%D7%9F.jpg"></div>
-      <div class="ph"><img src="https://ik.imagekit.io/gsmy1wvrd/School/Neve%20tzedek/%D7%A1%D7%95%D7%96%D7%9F.jpeg"></div>
-    </div>
-    <div class="gutter"></div>
-  </div>
-
   <div id="wwanchor"></div>
 
   <div class="lbl"><span><span class="n">15</span> · רגעים · סרט צילום</span><span class="d"><span class="pg">עמ' 28-29</span> · 25 × 50</span></div>
@@ -775,7 +762,7 @@
     if(!usable||usable<10){usable=1e6;} // נפילה בטוחה אם המדידה נכשלה
 
     // אריזה חמדנית: ממלאים כל עמודה עד למעלה
-    var budget=usable*0.95;
+    var budget=usable*0.90;
     var n=entries.length;
     function packCap(cap){var cs=[],cur=[],h=0;for(var i=0;i<n;i++){var e=entries[i],add=(cur.length?gap:0)+e.h;if(cur.length&&h+add>cap){cs.push(cur);cur=[];h=0;add=e.h;}cur.push(e);h+=add;}if(cur.length)cs.push(cur);return cs;}
     var atBudget=packCap(budget).length;
@@ -791,19 +778,21 @@
       cols[best].push(e); colH[best]+=(cols[best].length>1?gap:0)+e.h;
     });
 
-    // איזון: מזיזים כרטיסים מהעמודה המלאה לריקה כדי שלא תישאר עמודה כמעט ריקה (הסדר לא משנה)
-    function chH(c){var s=0;for(var z=0;z<c.length;z++)s+=c[z].h;return s+gap*Math.max(0,c.length-1);}
-    var rg=0;
-    while(rg++<300){
-      var hi=0,lo=0;
-      for(var k=1;k<cols.length;k++){ if(chH(cols[k])>chH(cols[hi]))hi=k; if(chH(cols[k])<chH(cols[lo]))lo=k; }
-      if(hi===lo||cols[hi].length<=1) break;
-      var hc=cols[hi], lc=cols[lo], mi=0;
-      for(var j=1;j<hc.length;j++) if(hc[j].h<hc[mi].h) mi=j;
-      var card=hc[mi];
-      var newHi=chH(hc)-card.h-gap, newLo=chH(lc)+card.h+gap;
-      if(newLo<=budget && Math.max(newHi,newLo) < chH(hc)-2){ hc.splice(mi,1); lc.push(card); } else break;
-    }
+    // מטמיעים תמונת בית ספר / שכונה ברווח שבתחתית עמודה — רק כשהרווח גדול מספיק לתמונה יפה
+    var SCHOOL=[
+      "https://ik.imagekit.io/gsmy1wvrd/School/building/20240806_091701.png",
+      "https://ik.imagekit.io/gsmy1wvrd/School/%D7%9E%D7%91%D7%A0%D7%941.jpg",
+      "https://ik.imagekit.io/gsmy1wvrd/School/Neve%20tzedek/%D7%A1%D7%95%D7%96%D7%9F.jpeg",
+      "https://ik.imagekit.io/gsmy1wvrd/School/%D7%9E%D7%91%D7%A0%D7%94%204.jpg",
+      "https://ik.imagekit.io/gsmy1wvrd/School/Neve%20tzedek/SEG_5803_%D7%9E%D7%95%D7%96%D7%99%D7%90%D7%95%D7%9F_%D7%A0%D7%97%D7%95%D7%9D_%D7%92%D7%95%D7%98%D7%9E%D7%9F.jpg",
+      "https://ik.imagekit.io/gsmy1wvrd/School/%D7%9E%D7%91%D7%A0%D7%94%203.jpg"
+    ];
+    var fi=0;
+    cols.forEach(function(col){
+      var used=0; col.forEach(function(c){used+=c.h;}); used+=gap*Math.max(0,col.length-1);
+      var fh=Math.round(usable*0.975 - used - gap);
+      if(fh >= usable*0.24){ col.push({filler:true,img:SCHOOL[fi%SCHOOL.length]}); fi++; }
+    });
 
     for(var s=0;s<cols.length;s+=2){
       var right=cols[s]||[], left=cols[s+1]||[];
