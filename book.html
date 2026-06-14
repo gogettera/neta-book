@@ -779,19 +779,26 @@
     });
 
     // מטמיעים תמונת בית ספר / שכונה ברווח שבתחתית עמודה — רק כשהרווח גדול מספיק לתמונה יפה
+    var SD='https://drive.google.com/thumbnail?id=', SZ='&sz=w1000';
     var SCHOOL=[
+      SD+'145zBVfpqeyd5i4QXwrXTYG6TDX2Cv69_'+SZ,
       "https://ik.imagekit.io/gsmy1wvrd/School/building/20240806_091701.png",
+      SD+'1o43Knbpy22mIqBhon_eclUXsdGVT0-1P'+SZ,
       "https://ik.imagekit.io/gsmy1wvrd/School/%D7%9E%D7%91%D7%A0%D7%941.jpg",
+      SD+'1unHt4zojLYuRb85arV8E1tyHB00mgphN'+SZ,
       "https://ik.imagekit.io/gsmy1wvrd/School/Neve%20tzedek/%D7%A1%D7%95%D7%96%D7%9F.jpeg",
+      SD+'11VfWS8iF58QmMMYisJmX--by69XfEZ85'+SZ,
       "https://ik.imagekit.io/gsmy1wvrd/School/%D7%9E%D7%91%D7%A0%D7%94%204.jpg",
+      SD+'12RBk27qCF-6cJwE-gUzDVHryH3hJ22IC'+SZ,
       "https://ik.imagekit.io/gsmy1wvrd/School/Neve%20tzedek/SEG_5803_%D7%9E%D7%95%D7%96%D7%99%D7%90%D7%95%D7%9F_%D7%A0%D7%97%D7%95%D7%9D_%D7%92%D7%95%D7%98%D7%9E%D7%9F.jpg",
+      SD+'1FxT6mxN53iahbWiunoRJiXAeiiGBdH4_'+SZ,
       "https://ik.imagekit.io/gsmy1wvrd/School/%D7%9E%D7%91%D7%A0%D7%94%203.jpg"
     ];
     var fi=0;
     cols.forEach(function(col){
       var used=0; col.forEach(function(c){used+=c.h;}); used+=gap*Math.max(0,col.length-1);
       var fh=Math.round(usable*0.975 - used - gap);
-      if(fh >= usable*0.24){ col.push({filler:true,img:SCHOOL[fi%SCHOOL.length]}); fi++; }
+      if(fh >= usable*0.20){ col.push({filler:true,img:SCHOOL[fi%SCHOOL.length]}); fi++; }
     });
 
     for(var s=0;s<cols.length;s+=2){
