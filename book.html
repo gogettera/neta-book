@@ -716,7 +716,7 @@
     if(c.pending){
       return `<div class="wcard pending"><div class="wnm">${esc(disp)}</div><div class="wpend">טרם נשלח ✎</div></div>`;
     }
-    var ph=c.photoId?`<div class="wph"><img src="https://drive.google.com/thumbnail?id=${c.photoId}&sz=w400"></div>`:'';
+    var ph=c.photoId?`<div class="wph"><img src="https://drive.google.com/thumbnail?id=${c.photoId}&sz=w400"></div>`:(c.photoUrl?`<div class="wph"><img src="${c.photoUrl}"></div>`:'');
     var tx=c.text?`<div class="wtxt">${esc(c.text)}</div>`:'';
     return `<div class="wcard">${ph}<div class="wnm"><svg class="hh"><use href="#heart"/></svg>${esc(disp)}</div>${tx}</div>`;
   }
@@ -729,10 +729,12 @@
     document.querySelectorAll('.ww-leaf,.ww-lbl').forEach(function(x){x.remove();});
     var entries=[];
     var GENERIC=["תודה על שנתיים מדהימות, נטע. נאהב אותך תמיד ❤️","נטע, תודה על הכל. נזכור אותך לנצח ❤️","המורה הכי טובה שיש. תודה על הכל, נטע ❤️"];
+    var FB='https://raw.githack.com/gogettera/neta-book/main/';
+    var PHOTOMAP={"נועם טוביאנה":FB+"face_noam.jpg","יהלי לוי":FB+"face_yahli.jpg","יונתן זיגל":FB+"face_yonatan.jpg","נבו כהן-חן":FB+"face_nevo.jpg","טיילור בן חיון":FB+"face_tylor.jpg","תור שמעון":FB+"face_tor.jpg"};
     var gi=0;
     ORDER.forEach(function(n){var e=data[n]; var has=e&&(e.text||e.photoId);
-      if(has){ entries.push({name:n,photoId:e.photoId,text:e.text||''}); }
-      else { entries.push({name:n,text:GENERIC[gi%GENERIC.length]}); gi++; }});
+      if(has){ var en={name:n,photoId:e.photoId,text:e.text||''}; if(!e.photoId&&PHOTOMAP[n]) en.photoUrl=PHOTOMAP[n]; entries.push(en); }
+      else { var en2={name:n,text:GENERIC[gi%GENERIC.length]}; if(PHOTOMAP[n]) en2.photoUrl=PHOTOMAP[n]; entries.push(en2); gi++; }});
     if(!entries.length){return;}
 
     // מודדים את הגובה האמיתי של כל כרטיס בעמודה ברוחב הסופי, ואז ארוזים צפוף
