@@ -679,6 +679,7 @@
       try{
         if(d&&d.html&&d.html.length>200){
           wrap.innerHTML=d.html; tagEditables(); try{localStorage.setItem(KEY,d.html);}catch(e){}
+          if(window.__wwRebuild) setTimeout(window.__wwRebuild,120);
           setStatus('☁ מסונכרן');
         } else {
           setStatus('☁ מחובר');
@@ -810,6 +811,7 @@
   if(document.readyState!=='loading') load(); else document.addEventListener('DOMContentLoaded',load);
   if(document.fonts&&document.fonts.ready){document.fonts.ready.then(function(){setTimeout(load,60);});}
   setTimeout(load,2800);
+  window.__wwRebuild=load;
 })();
 </script>
 </body>
