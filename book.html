@@ -36,12 +36,12 @@
   .lbl .pg{color:var(--teal);font-weight:700}
   .leaf{position:relative;margin:0 auto;border-radius:3px;overflow:hidden;background:var(--sand);
         box-shadow:0 26px 50px -24px rgba(34,60,56,.5),0 6px 16px -10px rgba(34,60,56,.3)}
-  /* Spread incl. bleed = 43.2 x 22.1 cm (1.955:1, NOT 2:1 — the old 2:1 was the stretch). */
+  /* Spread incl. bleed = 43.2 x 22.1 cm (1.955:1, NOT 2:1 - the old 2:1 was the stretch). */
   .spread{aspect-ratio:432 / 221}
   /* Single page incl. bleed = 22.1 x 22.1 cm (square). */
   .single{aspect-ratio:1/1;max-width:100%}
   .pages{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr}
-  /* ---- print safe-area / bleed guides — OFF by default; toggle with body class "guides" ---- */
+  /* ---- print safe-area / bleed guides - OFF by default; toggle with body class "guides" ---- */
   body.guides .leaf{outline:1.5px solid rgba(231,76,60,.75);outline-offset:-1px}                                   /* RED outline   = bleed edge (gets trimmed off) */
   body.guides .leaf::after{content:"";position:absolute;z-index:998;pointer-events:none;border:1.5px dashed rgba(38,128,235,.9)}  /* BLUE dash = trim line (finished edge) */
   body.guides .leaf.spread::after{top:2.262%;bottom:2.262%;left:1.157%;right:1.157%}
@@ -422,9 +422,9 @@
     <svg class="hrt" viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg"><path fill="#f4623a" d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/></svg>
     <div class="k">ספר התודה שלנו</div>
     <h2>לנטע</h2>
-    <p>על שנתיים נהדרות — תודה.</p>
+    <p>על שנתיים נהדרות, תודה.</p>
     <div class="sign">באהבה, כיתה ב'</div>
-    <div class="yr">2024 — 2026</div>
+    <div class="yr">2024–2026</div>
   </div>
 
   <div class="lbl"><span><span class="n">02</span> · פתיחה · חצי תמונה / חצי טקסט</span><span class="d"><span class="pg">עמ' 2-3</span> · 21 × 42</span></div>
@@ -560,10 +560,10 @@
     <svg class="hrt" viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg"><path fill="#f4623a" d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/></svg>
     <div class="t">תודה, נטע</div>
     <div class="s">כיתה ב' · ספר התודה שלנו</div>
-    <div class="yr">2024 — 2026</div>
+    <div class="yr">2024–2026</div>
   </div>
 
-  <p class="foot">מבנה: כריכה קידמית + אחורית (גיליון אחד) · עמוד 1 בודד · 15 כפולות (2-3…30-31) · עמוד 32 בודד — תואם פריסת יהלום lay-flat. התמונות האישיות והמשפטים יוחלפו באמיתיים, באיכות גבוהה, אחרי איסוף מההורים.</p>
+  <p class="foot">מבנה: כריכה קידמית + אחורית (גיליון אחד) · עמוד 1 בודד · 15 כפולות (2-3…30-31) · עמוד 32 בודד, תואם פריסת יהלום lay-flat. התמונות האישיות והמשפטים יוחלפו באמיתיים, באיכות גבוהה, אחרי איסוף מההורים.</p>
 
 </div>
 <script>
@@ -865,7 +865,7 @@
       cols[best].push(e); colH[best]+=(cols[best].length>1?gap:0)+e.h;
     });
 
-    // מטמיעים תמונת בית ספר / שכונה ברווח שבתחתית עמודה — רק כשהרווח גדול מספיק לתמונה יפה
+    // מטמיעים תמונת בית ספר / שכונה ברווח שבתחתית עמודה - רק כשהרווח גדול מספיק לתמונה יפה
     var SD='https://drive.google.com/thumbnail?id=', SZ='&sz=w1600';
     var SCHOOL=[
       SD+'145zBVfpqeyd5i4QXwrXTYG6TDX2Cv69_'+SZ,
