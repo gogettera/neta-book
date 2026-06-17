@@ -14,6 +14,15 @@
     --sand:#fdf8ee;--paper:#fffdf8;--ink:#22292b;--muted:#94928a;--line:#ece4d4;
     --coral:#f4623a;--coral-deep:#c2401d;--gold:#e8a13a;--teal:#16a395;--teal-deep:#0d5f57;
     --sky:#3bb4d4;--pink:#ef6f9c;--green:#7cb442;--cream:#fff4e4;--bg:#e7ede9;
+    /* ===== Picabook "פריזמה קטן יהלום" (Prisma Small DIAMOND / lay-flat) print spec, cm ===== */
+    --pg-net:21.1cm;        /* single page, trim/net (square) */
+    --pg-bleed:22.1cm;      /* single page incl. 5mm bleed each outer edge (square) */
+    --spread-w:43.2cm;      /* two-page spread incl. bleed, width  (NOT 2:1) */
+    --spread-h:22.1cm;      /* two-page spread incl. bleed, height */
+    --cover-w:49.1cm;       /* full printed cover wrap incl. bleed, width  */
+    --cover-h:24.4cm;       /* full printed cover wrap incl. bleed, height */
+    --bleed:0.5cm;          /* trimmed off every outer edge */
+    --safe:0.5cm;           /* extra keep-in margin for text/faces */
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:'Heebo',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
@@ -27,9 +36,20 @@
   .lbl .pg{color:var(--teal);font-weight:700}
   .leaf{position:relative;margin:0 auto;border-radius:3px;overflow:hidden;background:var(--sand);
         box-shadow:0 26px 50px -24px rgba(34,60,56,.5),0 6px 16px -10px rgba(34,60,56,.3)}
-  .spread{aspect-ratio:2/1}
+  /* Spread incl. bleed = 43.2 x 22.1 cm (1.955:1, NOT 2:1 — the old 2:1 was the stretch). */
+  .spread{aspect-ratio:432 / 221}
+  /* Single page incl. bleed = 22.1 x 22.1 cm (square). */
   .single{aspect-ratio:1/1;max-width:100%}
   .pages{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr}
+  /* ---- print safe-area / bleed guides — OFF by default; toggle with body class "guides" ---- */
+  body.guides .leaf{outline:1.5px solid rgba(231,76,60,.75);outline-offset:-1px}                                   /* RED outline   = bleed edge (gets trimmed off) */
+  body.guides .leaf::after{content:"";position:absolute;z-index:998;pointer-events:none;border:1.5px dashed rgba(38,128,235,.9)}  /* BLUE dash = trim line (finished edge) */
+  body.guides .leaf.spread::after{top:2.262%;bottom:2.262%;left:1.157%;right:1.157%}
+  body.guides .leaf.single::after{inset:2.262%}
+  body.guides .leaf::before{content:"";position:absolute;z-index:998;pointer-events:none;border:1px dashed rgba(39,174,96,.85)} /* GREEN dash = safe area (keep text/faces inside) */
+  body.guides .leaf.spread::before{top:4.525%;bottom:4.525%;left:2.315%;right:2.315%}
+  body.guides .leaf.single::before{inset:4.525%}
+  body.guides .leaf.spread .gutter{background:rgba(255,140,0,.22)!important;width:3.47%!important;right:48.265%!important;transform:none!important}  /* ORANGE band = gutter keep-out for text/faces */
   .page{position:relative;overflow:hidden}
   .full{position:absolute;inset:0}
   .gutter{position:absolute;top:0;bottom:0;right:50%;width:30px;transform:translateX(50%);z-index:9;pointer-events:none;
@@ -213,11 +233,11 @@
   .close .tx h2{font-family:'Suez One',serif;font-size:clamp(22px,3.9vw,38px);margin:.35em 0 .15em;color:#fffaf2}
   .close .tx .names{display:flex;flex-wrap:wrap;gap:4px 10px;justify-content:center;max-width:92%;margin:13px auto 0;color:#ffe5d6;font-size:clamp(8px,1.3vw,12px);font-weight:300}
   .close .cwrap{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--cream)}
-  .close .ctop{flex:none;padding:3% 5% 1.6%;text-align:center}
+  .close .ctop{flex:none;padding:5.5% 5% 1.6%;text-align:center}
   .close .ctop h2{font-family:'Suez One',serif;font-size:clamp(17px,3vw,32px);color:var(--coral-deep);margin:0;line-height:1.12}
   .close .cphoto{flex:1;min-height:0;overflow:hidden;margin:0 4%;border-radius:3px;background:#dde4e0}
   .close .cphoto img{width:100%;height:100%;object-fit:cover;display:block}
-  .close .cnames{flex:none;padding:2.2% 6% 2.8%;display:flex;flex-wrap:wrap;gap:4px 12px;justify-content:center;color:#6a7268;font-size:clamp(8px,1.3vw,12px);font-weight:400}
+  .close .cnames{flex:none;padding:2.2% 6% 6.5%;display:flex;flex-wrap:wrap;gap:4px 12px;justify-content:center;color:#6a7268;font-size:clamp(8px,1.3vw,12px);font-weight:400}
   .close .tx .qr{margin-top:16px;width:clamp(44px,8.5vw,68px);height:clamp(44px,8.5vw,68px);border:1.6px solid rgba(255,240,228,.7);border-radius:8px;display:flex;align-items:center;justify-content:center;text-align:center;color:#ffe5d6;font-size:8px;font-weight:700;line-height:1.3}
 
   .foot{text-align:center;color:var(--muted);font-size:12px;line-height:1.7;margin-top:24px}
@@ -298,7 +318,45 @@
   .scatter .ttl{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-2deg);z-index:10;background:var(--coral);color:var(--cream);padding:14px 32px;border-radius:3px;box-shadow:0 16px 32px -12px rgba(0,0,0,.45);text-align:center}
   .scatter .ttl h3{font-family:'Suez One',serif;font-size:clamp(18px,3vw,34px);margin:0;color:#fffaf2}
   .scatter .ttl span{font-size:clamp(9px,1.4vw,13px);letter-spacing:.12em;color:#ffe7d4;display:block;margin-top:5px;font-weight:400}
-  @media print{#ed-bar,#ed-modal,#ed-img,#ed-handles,#ed-crop,.lbl,.intro,.foot{display:none!important} .leaf{box-shadow:none!important;border-radius:0!important} body{background:#fff}}
+  /* ===== added surfaces: page 1 (dedication), page 32 (closing), back cover ===== */
+  .ded{background:radial-gradient(125% 90% at 50% 0%,#fffdf8,var(--sand));display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:13%}
+  .ded .hrt{width:clamp(26px,5vw,46px);height:auto;margin-bottom:6%}
+  .ded .k{font-weight:800;letter-spacing:.22em;font-size:clamp(8px,1.2vw,11px);color:var(--coral);text-transform:uppercase}
+  .ded h2{font-family:'Suez One',serif;font-size:clamp(30px,6vw,54px);color:var(--ink);margin:.45em 0 .3em;line-height:1}
+  .ded p{font-family:'Frank Ruhl Libre',serif;font-size:clamp(13px,2.1vw,19px);color:#4a5350;max-width:22ch;line-height:1.5;margin:0 0 1.3em}
+  .ded .sign{font-family:'Gveret Levin AlefAlefAlef',cursive;color:var(--coral-deep);font-size:clamp(18px,2.9vw,27px)}
+  .ded .yr{margin-top:.7em;font-weight:700;letter-spacing:.32em;color:var(--muted);font-size:clamp(9px,1.3vw,12px)}
+
+  .endp{background:var(--sand);display:flex;flex-direction:column;align-items:center;padding:8.5% 8% 7%}
+  .endp h2{font-family:'Suez One',serif;font-size:clamp(15px,2.7vw,25px);color:var(--coral-deep);text-align:center;margin:0 0 4.5%;line-height:1.06}
+  .endp .ph{width:100%;flex:0 0 40%;border-radius:6px;overflow:hidden;box-shadow:0 12px 26px -16px rgba(34,60,56,.55)}
+  .endp .ph img{width:100%;height:100%;object-fit:cover}
+  .endp .nm{display:flex;flex-wrap:wrap;justify-content:center;align-content:flex-start;margin-top:5%;max-width:98%;flex:1 1 auto}
+  .endp .nm span{font-family:'Frank Ruhl Libre',serif;font-size:clamp(9px,1.35vw,13px);color:#46504d;line-height:1.7;padding:0 2.1%;white-space:nowrap;border-left:1px solid var(--line)}
+  .endp .nm span:last-child{border-left:0}
+  .endp .ty{font-family:'Gveret Levin AlefAlefAlef',cursive;color:var(--coral);font-size:clamp(15px,2.4vw,22px);margin-top:4%}
+
+  .bcover{background:radial-gradient(125% 95% at 50% 32%,#fffdf8,var(--sand));display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12% 12% 22%}
+  .bcover .hrt{width:clamp(22px,4vw,38px);height:auto;margin-bottom:7%}
+  .bcover .t{font-family:'Suez One',serif;font-size:clamp(15px,2.7vw,25px);color:var(--ink);line-height:1.12}
+  .bcover .s{margin-top:3.5%;font-weight:800;letter-spacing:.26em;color:var(--coral);font-size:clamp(9px,1.3vw,12px)}
+  .bcover .yr{margin-top:6%;letter-spacing:.3em;color:var(--muted);font-weight:700;font-size:clamp(9px,1.2vw,12px)}
+
+  @media print{
+    #ed-bar,#ed-modal,#ed-img,#ed-handles,#ed-crop,.lbl,.intro,.foot,
+    #claude-static-indicator-container,#claude-agent-glow-border{display:none!important}
+    html,body{background:#fff!important;margin:0!important;padding:0!important}
+    .wrap{margin:0!important;padding:0!important;gap:0!important;display:block!important;max-width:none!important;width:auto!important}
+    @page{size:43.2cm 22.1cm;margin:0}
+    .leaf{box-shadow:none!important;border-radius:0!important;margin:0!important;page-break-after:always;break-after:page;page-break-inside:avoid;break-inside:avoid;width:43.2cm!important;height:22.1cm!important;max-width:none!important;border:0!important;overflow:hidden!important}
+    .leaf.spread{aspect-ratio:auto!important}
+    .leaf.single{page:coverp;width:22.1cm!important;height:22.1cm!important;aspect-ratio:auto!important}
+    @page coverp{size:22.1cm 22.1cm;margin:0}
+    .leaf.single .full{position:absolute!important;top:0!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;height:100%!important}
+    .leaf .ww{height:100%!important;grid-template-rows:100%!important}
+    .leaf .ww .wcol{height:100%!important}
+    .leaf:last-of-type{page-break-after:auto;break-after:auto}
+  }
 </style>
 </head>
 <body>
@@ -341,7 +399,7 @@
 <div class="wrap">
   <p class="intro"><b>תודה, נטע · הספר שלנו</b><br>שנתיים יחד · כיתה ב' · 2024–2026</p>
 
-  <div class="lbl"><span><span class="n">01</span> · כריכה · מסגרת כותרת</span><span class="d"><span class="pg">עמ' 1</span> · 25 × 25</span></div>
+  <div class="lbl"><span><span class="n">כ</span> · כריכה קידמית · מסגרת כותרת</span><span class="d"><span class="pg">כריכה קידמית</span> · 21 × 21</span></div>
   <div class="leaf single cover">
     <img class="full" src="https://drive.google.com/thumbnail?id=1JkxkWaqcAGtYRST-_PrKmW0WdgKL-dVT&sz=w1600">
     <div class="topfade"></div>
@@ -352,11 +410,21 @@
     </div>
   </div>
 
-  <div class="lbl"><span><span class="n">02</span> · פתיחה · חצי תמונה / חצי טקסט</span><span class="d"><span class="pg">עמ' 2-3</span> · 25 × 50</span></div>
+  <div class="lbl"><span><span class="n">1</span> · עמוד פתיחה · הקדשה</span><span class="d"><span class="pg">עמוד 1</span> · 21 × 21 · עמוד בודד</span></div>
+  <div class="leaf single ded">
+    <svg class="hrt" viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg"><path fill="#f4623a" d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/></svg>
+    <div class="k">ספר התודה שלנו</div>
+    <h2>לנטע</h2>
+    <p>על שנתיים נהדרות — תודה.</p>
+    <div class="sign">באהבה, כיתה ב'</div>
+    <div class="yr">2024 — 2026</div>
+  </div>
+
+  <div class="lbl"><span><span class="n">02</span> · פתיחה · חצי תמונה / חצי טקסט</span><span class="d"><span class="pg">עמ' 2-3</span> · 21 × 42</span></div>
   <div class="leaf spread let">
     <div class="pages">
       <div class="page ph">
-        <img class="full" src="https://drive.google.com/thumbnail?id=1YOsAFGwcB7YB0K-0LhEGIbIwKz9E3msn&sz=w1400">
+        <img class="full" src="https://drive.google.com/thumbnail?id=1YOsAFGwcB7YB0K-0LhEGIbIwKz9E3msn&sz=w1600">
         <div class="cap">נטע ואנחנו</div>
       </div>
       <div class="page">
@@ -371,21 +439,21 @@
     <div class="gutter"></div>
   </div>
 
-  <div class="lbl"><span><span class="n">03</span> · רגע גדול · תמונה על כל הכפולה</span><span class="d"><span class="pg">עמ' 4-5</span> · 25 × 50</span></div>
+  <div class="lbl"><span><span class="n">03</span> · רגע גדול · תמונה על כל הכפולה</span><span class="d"><span class="pg">עמ' 4-5</span> · 21 × 42</span></div>
   <div class="leaf spread moment">
-    <img class="full" src="https://drive.google.com/thumbnail?id=13VrB_7e-69YBICe7HXfR_23ZHoO0SqVS&sz=w2000">
+    <img class="full" src="https://drive.google.com/thumbnail?id=13VrB_7e-69YBICe7HXfR_23ZHoO0SqVS&sz=w1600">
     <div class="veil"></div>
     <div class="q"><div class="big">שנתיים<br>של יחד.</div></div>
     <div class="gutter"></div>
   </div>
 
-  <div class="lbl"><span><span class="n">04</span> · היום הראשון · כיתה א'</span><span class="d"><span class="pg">עמ' 6-7</span> · 25 × 50</span></div>
+  <div class="lbl"><span><span class="n">04</span> · היום הראשון · כיתה א'</span><span class="d"><span class="pg">עמ' 6-7</span> · 21 × 42</span></div>
   <div class="leaf spread">
-    <div class="mosaic"><img src="https://drive.google.com/thumbnail?id=1DbI_z7coLgcgX8GXOyv_vKYtCRRyU9Ya&sz=w500"><img src="https://drive.google.com/thumbnail?id=1ebETXzNhZRsDrqQ8t4gLzZDBEyYMZwVx&sz=w500"><div class="bgtile" style="background-image:url(https://drive.google.com/thumbnail?id=1RjS3Ay9WxT5Ftj28c3FYYhlexWA7UkHf&sz=w900);background-size:265%;background-position:54% 30%"></div><img src="https://drive.google.com/thumbnail?id=1BfJPSjiNFWE2ED9kZPJLWdGmL45VBV_E&sz=w500"><img src="https://drive.google.com/thumbnail?id=15wxG_URPR-1P4RvQr4YW5mZJtLZi668r&sz=w500"><img src="https://drive.google.com/thumbnail?id=1AtCWwIgs4UeDQNmeu8H-gfcauTuo4gqC&sz=w500"><img src="https://drive.google.com/thumbnail?id=11rtxyLUeTS3anIvqdYb09ZmmM2zf8xhG&sz=w500"><img src="https://drive.google.com/thumbnail?id=1AacCre4EL_zvwhhZeLu0GvspIbUjCDkH&sz=w500"><img src="https://drive.google.com/thumbnail?id=1RcGmpaRviCn9gLG5hMnS0nb9KHawnOkE&sz=w500"><img src="https://drive.google.com/thumbnail?id=1jp6kSz3avck_TIkCw2TLNnIzXlmZJq6H&sz=w500"><img src="https://drive.google.com/thumbnail?id=1IzsCpYOAC7yOLSCIxvKTTYcpVR5bC7MW&sz=w500"><img src="https://drive.google.com/thumbnail?id=16Kc0YCdzzTQPWqLmUGG97mj1Jfi2CXI4&sz=w500"><div class="mcard"><b>תבעת מאיתנו הרבה בלימודים.<br>אבל יותר מכול, שנהיה חברים טובים זה לזה.</b><span>היום הראשון של כיתה א' · ספטמבר 2024</span></div></div>
+    <div class="mosaic"><img src="https://drive.google.com/thumbnail?id=1DbI_z7coLgcgX8GXOyv_vKYtCRRyU9Ya&sz=w1600"><img src="https://drive.google.com/thumbnail?id=1ebETXzNhZRsDrqQ8t4gLzZDBEyYMZwVx&sz=w1600"><div class="bgtile" style="background-image:url(https://drive.google.com/thumbnail?id=1RjS3Ay9WxT5Ftj28c3FYYhlexWA7UkHf&sz=w1600);background-size:265%;background-position:54% 30%"></div><img src="https://drive.google.com/thumbnail?id=1BfJPSjiNFWE2ED9kZPJLWdGmL45VBV_E&sz=w1600"><img src="https://drive.google.com/thumbnail?id=15wxG_URPR-1P4RvQr4YW5mZJtLZi668r&sz=w1600"><img src="https://drive.google.com/thumbnail?id=1AtCWwIgs4UeDQNmeu8H-gfcauTuo4gqC&sz=w1600"><img src="https://drive.google.com/thumbnail?id=11rtxyLUeTS3anIvqdYb09ZmmM2zf8xhG&sz=w1600"><img src="https://drive.google.com/thumbnail?id=1AacCre4EL_zvwhhZeLu0GvspIbUjCDkH&sz=w1600"><img src="https://drive.google.com/thumbnail?id=1RcGmpaRviCn9gLG5hMnS0nb9KHawnOkE&sz=w1600"><img src="https://drive.google.com/thumbnail?id=1jp6kSz3avck_TIkCw2TLNnIzXlmZJq6H&sz=w1600"><img src="https://drive.google.com/thumbnail?id=1IzsCpYOAC7yOLSCIxvKTTYcpVR5bC7MW&sz=w1600"><img src="https://drive.google.com/thumbnail?id=16Kc0YCdzzTQPWqLmUGG97mj1Jfi2CXI4&sz=w1600"><div class="mcard"><b>תבעת מאיתנו הרבה בלימודים.<br>אבל יותר מכול, שנהיה חברים טובים זה לזה.</b><span>היום הראשון של כיתה א' · ספטמבר 2024</span></div></div>
     <div class="gutter"></div>
   </div>
 
-  <div class="lbl"><span><span class="n">05</span> · פורים · כולנו מחופשים</span><span class="d"><span class="pg">עמ' 8-9</span> · 25 × 50</span></div>
+  <div class="lbl"><span><span class="n">05</span> · פורים · כולנו מחופשים</span><span class="d"><span class="pg">עמ' 8-9</span> · 21 × 42</span></div>
   <div class="leaf spread">
     <div class="feat">
       <div class="hero">
@@ -396,39 +464,39 @@
     <div class="gutter"></div>
   </div>
 
-  <div class="lbl"><span><span class="n">07</span> · מתחת לשמיים · דיפטיך</span><span class="d"><span class="pg">עמ' 12-13</span> · 25 × 50</span></div>
+  <div class="lbl"><span><span class="n">07</span> · מתחת לשמיים · דיפטיך</span><span class="d"><span class="pg">עמ' 12-13</span> · 21 × 42</span></div>
   <div class="leaf spread">
     <div class="sky">
-      <div class="ph" style="grid-area:1 / 1 / 2 / 3"><img src="https://drive.google.com/thumbnail?id=1s8QJb2d36nO-9Emz71C9yAg7lJiN8ZoJ&sz=w1000"></div>
-      <div class="ph" style="grid-area:1 / 3 / 2 / 4"><img src="https://drive.google.com/thumbnail?id=1GrZh3R-Q4Ni2A0tYJFOSV9kX_Pv2q4Ax&sz=w1000"></div>
-      <div class="ph" style="grid-area:1 / 4 / 2 / 5"><img src="https://drive.google.com/thumbnail?id=1vBxu5tAuERweRhFy57ThYTEfxlue7aLH&sz=w1000"></div>
-      <div class="ph" style="grid-area:2 / 1 / 3 / 2"><img src="https://drive.google.com/thumbnail?id=1RtdDwgrpb2FkjcOoZP4L3wm3buFB4IsM&sz=w1000"></div>
-      <div class="ph" style="grid-area:2 / 2 / 3 / 3"><img src="https://drive.google.com/thumbnail?id=17r8Ckdo6KAXAg5j2s86l9KodhPHqQs1c&sz=w1000"></div>
-      <div class="ph" style="grid-area:2 / 3 / 3 / 4"><img src="https://drive.google.com/thumbnail?id=1GUISWtsKN-JhWZCbU5CGOWNdHgcQy3_q&sz=w1000"></div>
-      <div class="ph" style="grid-area:2 / 4 / 3 / 5"><img src="https://drive.google.com/thumbnail?id=1OdIuiCZRU1PZEgGpeMm3hCa2uhVFF21-&sz=w1000"></div>
+      <div class="ph" style="grid-area:1 / 1 / 2 / 3"><img src="https://drive.google.com/thumbnail?id=1s8QJb2d36nO-9Emz71C9yAg7lJiN8ZoJ&sz=w1600"></div>
+      <div class="ph" style="grid-area:1 / 3 / 2 / 4"><img src="https://drive.google.com/thumbnail?id=1GrZh3R-Q4Ni2A0tYJFOSV9kX_Pv2q4Ax&sz=w1600"></div>
+      <div class="ph" style="grid-area:1 / 4 / 2 / 5"><img src="https://drive.google.com/thumbnail?id=1vBxu5tAuERweRhFy57ThYTEfxlue7aLH&sz=w1600"></div>
+      <div class="ph" style="grid-area:2 / 1 / 3 / 2"><img src="https://drive.google.com/thumbnail?id=1RtdDwgrpb2FkjcOoZP4L3wm3buFB4IsM&sz=w1600"></div>
+      <div class="ph" style="grid-area:2 / 2 / 3 / 3"><img src="https://drive.google.com/thumbnail?id=17r8Ckdo6KAXAg5j2s86l9KodhPHqQs1c&sz=w1600"></div>
+      <div class="ph" style="grid-area:2 / 3 / 3 / 4"><img src="https://drive.google.com/thumbnail?id=1GUISWtsKN-JhWZCbU5CGOWNdHgcQy3_q&sz=w1600"></div>
+      <div class="ph" style="grid-area:2 / 4 / 3 / 5"><img src="https://drive.google.com/thumbnail?id=1OdIuiCZRU1PZEgGpeMm3hCa2uhVFF21-&sz=w1600"></div>
       <div class="card"><h3>מתחת לשמיים</h3><p>הכי אהבנו את הימים באוויר הפתוח.</p></div>
     </div>
     <div class="gutter"></div>
   </div>
 
-  <div class="lbl"><span><span class="n">08</span> · קולאז' · פולארויד מפוזר</span><span class="d"><span class="pg">עמ' 14-15</span> · 25 × 50</span></div>
+  <div class="lbl"><span><span class="n">08</span> · קולאז' · פולארויד מפוזר</span><span class="d"><span class="pg">עמ' 14-15</span> · 21 × 42</span></div>
   <div class="leaf spread">
-    <div class="scatter"><div class="pol" style="width:17%;left:4%;top:7%;transform:rotate(-6deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1UlYmSzPP_gBB-zthmclYf2SH3UtAiFR0&sz=w600"></div></div><div class="pol" style="width:15%;left:25%;top:4%;transform:rotate(4deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=14zR69H_n-p7JCtQMOGo0-t3xkKIAKvNT&sz=w600"></div></div><div class="pol" style="width:16%;left:4%;top:52%;transform:rotate(5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1HMeIL2w164eZ53WRIxb7yIqJMAp5CzB3&sz=w600"></div></div><div class="pol" style="width:15%;left:23%;top:56%;transform:rotate(-5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1Mz9i1wyogbj4iN4bDxxfs7utecwnffr4&sz=w600"></div></div><div class="pol" style="width:17%;left:62%;top:6%;transform:rotate(5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1MASsIovBbiAU-O_IAOrZfvonUeBNjTdH&sz=w600"></div></div><div class="pol" style="width:16%;left:79%;top:32%;transform:rotate(-5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1SUU1hssRaT8FG-NGlqByzc--pehjwxSV&sz=w600"></div></div><div class="pol" style="width:15%;left:66%;top:58%;transform:rotate(4deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1zYYe9r2HuyKnvdjSiQb2QhlK49BNfMFG&sz=w600"></div></div><div class="pol" style="width:15%;left:43%;top:73%;transform:rotate(-4deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1JbTRTLeN7aqiJjE1w5LNf-6fOS39g7NC&sz=w600"></div></div><div class="pol" style="width:14%;left:45%;top:3%;transform:rotate(4deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1xD6Ujo7sur4hehXp_eaucsC8FRmV14KP&sz=w600"></div></div><div class="pol" style="width:14%;left:85%;top:8%;transform:rotate(5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1vXk1xmyhHTVXJ1LHF1eYqG_cdsYmgSrU&sz=w600"></div></div><div class="ttl"><h3>כולנו פה, יחד</h3><span>שנתיים של רגעים</span></div></div>
+    <div class="scatter"><div class="pol" style="width:17%;left:4%;top:7%;transform:rotate(-6deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1UlYmSzPP_gBB-zthmclYf2SH3UtAiFR0&sz=w1600"></div></div><div class="pol" style="width:15%;left:25%;top:4%;transform:rotate(4deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=14zR69H_n-p7JCtQMOGo0-t3xkKIAKvNT&sz=w1600"></div></div><div class="pol" style="width:16%;left:4%;top:52%;transform:rotate(5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1HMeIL2w164eZ53WRIxb7yIqJMAp5CzB3&sz=w1600"></div></div><div class="pol" style="width:15%;left:23%;top:56%;transform:rotate(-5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1Mz9i1wyogbj4iN4bDxxfs7utecwnffr4&sz=w1600"></div></div><div class="pol" style="width:17%;left:62%;top:6%;transform:rotate(5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1MASsIovBbiAU-O_IAOrZfvonUeBNjTdH&sz=w1600"></div></div><div class="pol" style="width:16%;left:79%;top:32%;transform:rotate(-5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1SUU1hssRaT8FG-NGlqByzc--pehjwxSV&sz=w1600"></div></div><div class="pol" style="width:15%;left:66%;top:58%;transform:rotate(4deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1zYYe9r2HuyKnvdjSiQb2QhlK49BNfMFG&sz=w1600"></div></div><div class="pol" style="width:15%;left:43%;top:73%;transform:rotate(-4deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1JbTRTLeN7aqiJjE1w5LNf-6fOS39g7NC&sz=w1600"></div></div><div class="pol" style="width:14%;left:45%;top:3%;transform:rotate(4deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1xD6Ujo7sur4hehXp_eaucsC8FRmV14KP&sz=w1600"></div></div><div class="pol" style="width:14%;left:85%;top:8%;transform:rotate(5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1vXk1xmyhHTVXJ1LHF1eYqG_cdsYmgSrU&sz=w1600"></div></div><div class="ttl"><h3>כולנו פה, יחד</h3><span>שנתיים של רגעים</span></div></div>
     <div class="gutter"></div>
   </div>
 
-  <div class="lbl"><span><span class="n">09</span> · משחקים · קולאז' עיגולים</span><span class="d"><span class="pg">עמ' 16-17</span> · 25 × 50</span></div>
+  <div class="lbl"><span><span class="n">09</span> · משחקים · קולאז' עיגולים</span><span class="d"><span class="pg">עמ' 16-17</span> · 21 × 42</span></div>
   <div class="leaf spread">
     <div class="circ">
       <div class="ttl"><h3 class="display">ימים של כיף</h3></div>
-      <div class="o" style="width:24%;aspect-ratio:1;left:4%;top:12%"><img src="https://drive.google.com/thumbnail?id=1TBH7E05M0GYOYVoa_egqEiKrQ5TFVXOK&sz=w700"></div>
-      <div class="o" style="width:20%;aspect-ratio:1;left:27%;top:9%"><img src="https://drive.google.com/thumbnail?id=1n0UYu12KOEfITeaccrU9BTcANb23qKtX&sz=w700"></div>
-      <div class="o" style="width:22%;aspect-ratio:1;left:15%;top:54%"><img src="https://drive.google.com/thumbnail?id=1_l03ViwnALr0gmFU44XgjNzGpyXSpBY7&sz=w700"></div>
-      <div class="o" style="width:19%;aspect-ratio:1;left:39%;top:50%"><img src="https://drive.google.com/thumbnail?id=10D0tFM0L8H2bi55HfX3-8Ko8FafyAb1V&sz=w700"></div>
-      <div class="o" style="width:23%;aspect-ratio:1;left:56%;top:45%"><img src="https://drive.google.com/thumbnail?id=10IliGAppc8nP6Gv2qX_DONLHFoPHOWoX&sz=w700"></div>
-      <div class="o" style="width:18%;aspect-ratio:1;left:77%;top:56%"><img src="https://drive.google.com/thumbnail?id=1qtDVwNUOhqpcvlmtzzmPe_gd1LHU6t6B&sz=w700"></div>
-      <div class="o" style="width:17%;aspect-ratio:1;left:47%;top:9%"><img src="https://drive.google.com/thumbnail?id=1f9nLl7kBZ7XeJyCBem23iZoJxnQhPnvf&sz=w700"></div>
-      <div class="o" style="width:16%;aspect-ratio:1;left:2%;top:38%"><img src="https://drive.google.com/thumbnail?id=1aRs0MrU2eyfvrMQhbQbtcMRpKChHq11L&sz=w700"></div>
+      <div class="o" style="width:24%;aspect-ratio:1;left:4%;top:12%"><img src="https://drive.google.com/thumbnail?id=1TBH7E05M0GYOYVoa_egqEiKrQ5TFVXOK&sz=w1600"></div>
+      <div class="o" style="width:20%;aspect-ratio:1;left:27%;top:9%"><img src="https://drive.google.com/thumbnail?id=1n0UYu12KOEfITeaccrU9BTcANb23qKtX&sz=w1600"></div>
+      <div class="o" style="width:22%;aspect-ratio:1;left:15%;top:54%"><img src="https://drive.google.com/thumbnail?id=1_l03ViwnALr0gmFU44XgjNzGpyXSpBY7&sz=w1600"></div>
+      <div class="o" style="width:19%;aspect-ratio:1;left:39%;top:50%"><img src="https://drive.google.com/thumbnail?id=10D0tFM0L8H2bi55HfX3-8Ko8FafyAb1V&sz=w1600"></div>
+      <div class="o" style="width:23%;aspect-ratio:1;left:56%;top:45%"><img src="https://drive.google.com/thumbnail?id=10IliGAppc8nP6Gv2qX_DONLHFoPHOWoX&sz=w1600"></div>
+      <div class="o" style="width:18%;aspect-ratio:1;left:77%;top:56%"><img src="https://drive.google.com/thumbnail?id=1qtDVwNUOhqpcvlmtzzmPe_gd1LHU6t6B&sz=w1600"></div>
+      <div class="o" style="width:17%;aspect-ratio:1;left:47%;top:9%"><img src="https://drive.google.com/thumbnail?id=1f9nLl7kBZ7XeJyCBem23iZoJxnQhPnvf&sz=w1600"></div>
+      <div class="o" style="width:16%;aspect-ratio:1;left:2%;top:38%"><img src="https://drive.google.com/thumbnail?id=1aRs0MrU2eyfvrMQhbQbtcMRpKChHq11L&sz=w1600"></div>
       <div class="d" style="left:50%;top:15%;width:5%"><svg viewBox="0 0 24 24"><use href="#star"/></svg></div>
       <div class="d" style="left:34%;top:43%;width:4.5%"><svg viewBox="0 0 24 24"><use href="#spark"/></svg></div>
     </div>
@@ -437,47 +505,65 @@
 
   <div id="wwanchor"></div>
 
-  <div class="lbl"><span><span class="n">15</span> · רגעים · סרט צילום</span><span class="d"><span class="pg">עמ' 28-29</span> · 25 × 50</span></div>
+  <div class="lbl"><span><span class="n">15</span> · רגעים · סרט צילום</span><span class="d"><span class="pg">עמ' 28-29</span> · 21 × 42</span></div>
   <div class="leaf spread">
     <div class="film">
       <div class="ttl"><h3>רגעים שלא נשכח</h3></div>
       <div class="row">
-        <div class="fr"><img src="https://drive.google.com/thumbnail?id=1M-JBwE7MJijq8Co6-FKQEAkRkCRuMysZ&sz=w700"></div>
-        <div class="fr"><img src="https://drive.google.com/thumbnail?id=1KjmWRr5v-UXHGz8EBpjBHmy1clSqAheE&sz=w700"></div>
-        <div class="fr"><img src="https://drive.google.com/thumbnail?id=19x89l7uHH46I2Pc9NPYxGrQp1Qin24vA&sz=w700"></div>
-        <div class="fr"><img src="https://drive.google.com/thumbnail?id=1B2kc8hn2HX_bb5Q07SGkYVBct2T6CrhR&sz=w700"></div>
-        <div class="fr"><img src="https://drive.google.com/thumbnail?id=1GQvtBzDTcXbx6paYpSH8f26CDwGo9q9i&sz=w700"></div>
+        <div class="fr"><img src="https://drive.google.com/thumbnail?id=1M-JBwE7MJijq8Co6-FKQEAkRkCRuMysZ&sz=w1600"></div>
+        <div class="fr"><img src="https://drive.google.com/thumbnail?id=1KjmWRr5v-UXHGz8EBpjBHmy1clSqAheE&sz=w1600"></div>
+        <div class="fr"><img src="https://drive.google.com/thumbnail?id=19x89l7uHH46I2Pc9NPYxGrQp1Qin24vA&sz=w1600"></div>
+        <div class="fr"><img src="https://drive.google.com/thumbnail?id=1B2kc8hn2HX_bb5Q07SGkYVBct2T6CrhR&sz=w1600"></div>
+        <div class="fr"><img src="https://drive.google.com/thumbnail?id=1GQvtBzDTcXbx6paYpSH8f26CDwGo9q9i&sz=w1600"></div>
       </div>
     </div>
     <div class="gutter"></div>
   </div>
 
-  <div class="lbl"><span><span class="n">16</span> · נטע ואנחנו · לב</span><span class="d"><span class="pg">עמ' 30-31</span> · 25 × 50</span></div>
+  <div class="lbl"><span><span class="n">16</span> · נטע ואנחנו · לב</span><span class="d"><span class="pg">עמ' 30-31</span> · 21 × 42</span></div>
   <div class="leaf spread">
     <div class="netaheart">
-      <div class="nph" style="left:3%;top:6%;transform:rotate(-5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=167QrJkOeERIhwwAHQuZQ4AxTg68N1j8Q&sz=w600"></div></div>
-      <div class="nph" style="left:4%;top:56%;transform:rotate(4deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1yN9omMTVxxbFjTk4Poad2rNSJX5E8vyB&sz=w600"></div></div>
-      <div class="nph" style="left:81%;top:6%;transform:rotate(5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1tWWp03Jf_XvNLhwIKuledCOY6GmnhNjJ&sz=w600"></div></div>
-      <div class="nph" style="left:82%;top:56%;transform:rotate(-4deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=11AAUpNvJlfizPKi6ABHH7kNHRmwndrtw&sz=w600"></div></div>
-      <div class="nph" style="left:26%;top:1%;transform:rotate(-3deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=11OqITah8duftoNKQothHWF9_3YS6_Si5&sz=w600"></div></div>
-      <div class="nph" style="left:59%;top:1%;transform:rotate(3deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=12ZLRyFt7th05mvwUIgWj9aDsPl3JvUu8&sz=w600"></div></div>
-      <div class="nph" style="left:42%;top:73%;transform:rotate(-2deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1PApkySWzgl7evXCjlW-QqBW0ST0vKJYt&sz=w600"></div></div>
+      <div class="nph" style="left:3%;top:6%;transform:rotate(-5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=167QrJkOeERIhwwAHQuZQ4AxTg68N1j8Q&sz=w1600"></div></div>
+      <div class="nph" style="left:4%;top:56%;transform:rotate(4deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1yN9omMTVxxbFjTk4Poad2rNSJX5E8vyB&sz=w1600"></div></div>
+      <div class="nph" style="left:81%;top:6%;transform:rotate(5deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1tWWp03Jf_XvNLhwIKuledCOY6GmnhNjJ&sz=w1600"></div></div>
+      <div class="nph" style="left:82%;top:56%;transform:rotate(-4deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=11AAUpNvJlfizPKi6ABHH7kNHRmwndrtw&sz=w1600"></div></div>
+      <div class="nph" style="left:26%;top:1%;transform:rotate(-3deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=11OqITah8duftoNKQothHWF9_3YS6_Si5&sz=w1600"></div></div>
+      <div class="nph" style="left:59%;top:1%;transform:rotate(3deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=12ZLRyFt7th05mvwUIgWj9aDsPl3JvUu8&sz=w1600"></div></div>
+      <div class="nph" style="left:42%;top:73%;transform:rotate(-2deg)"><div class="pic"><img src="https://drive.google.com/thumbnail?id=1PApkySWzgl7evXCjlW-QqBW0ST0vKJYt&sz=w1600"></div></div>
       <div class="heart"><svg viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg"><path fill="#f4623a" d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/></svg><div class="msg"><b>כיתה טובה היא בית.<br>ואת הפכת אותנו למשפחה.</b><span>תודה, נטע ♥</span></div></div>
     </div>
 <div class="gutter"></div>
   </div>
 
-  <div class="lbl"><span><span class="n">17</span> · נעילה · תמונה + חתימות</span><span class="d"><span class="pg">עמ' 32-33</span> · 25 × 50</span></div>
+  <div class="lbl"><span><span class="n">15</span> · נעילה · תמונה + חתימות</span><span class="d"><span class="pg">עמ' 30-31</span> · 21 × 42</span></div>
   <div class="leaf spread close">
     <div class="cwrap">
-      <div class="ctop"><h2>לנצח תהיי המורה של ילדותנו</h2></div>
+      <div class="ctop"><h2>תודה על שנתיים נהדרות ♥</h2></div>
       <div class="cphoto"><img src="https://drive.google.com/thumbnail?id=1oE5cBqOSO_9M6de7LdjqqDPsCWV8cKsz&sz=w1600"></div>
       <div class="cnames"><span>ארי</span><span>ארי</span><span>אנג'לינה</span><span>אמי</span><span>אלה</span><span>איתן</span><span>אייר</span><span>אור</span><span>אגם</span><span>אביגיל</span><span>נח</span><span>נועם</span><span>נבו</span><span>מיילי</span><span>ליאו</span><span>יונתן</span><span>יהלי</span><span>טיילור</span><span>טדי</span><span>גילי</span><span>תור</span><span>קאי</span><span>עמנואל</span><span>עומר</span><span>נעמי</span><span>נעמי</span></div>
     </div>
     <div class="gutter"></div>
   </div>
 
-  <p class="foot">17 פריסות שונות · שמירה אוטומטית בגוגל דרייב פעילה. גיבוי נוסף: "שמירה כקובץ". התמונות האישיות והמשפטים יוחלפו באמיתיים, באיכות גבוהה, אחרי איסוף מההורים.</p>
+  <div class="lbl"><span><span class="n">32</span> · סוף · עמוד בודד</span><span class="d"><span class="pg">עמוד 32</span> · 21 × 21 · עמוד בודד</span></div>
+  <div class="leaf single ded">
+    <svg class="hrt" viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg"><path fill="#f4623a" d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/></svg>
+    <div class="k">מכל הלב</div>
+    <h2>תודה</h2>
+    <p>על כל רגע, חיוך ומילה טובה.</p>
+    <div class="sign">הילדים של כיתה ב'</div>
+    <div class="yr">2024 — 2026</div>
+  </div>
+
+  <div class="lbl"><span><span class="n">כ</span> · כריכה אחורית · מינימלי (אזור ברקוד נקי)</span><span class="d"><span class="pg">כריכה אחורית</span> · 21 × 21</span></div>
+  <div class="leaf single bcover">
+    <svg class="hrt" viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg"><path fill="#f4623a" d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/></svg>
+    <div class="t">תודה, נטע</div>
+    <div class="s">כיתה ב' · ספר התודה שלנו</div>
+    <div class="yr">2024 — 2026</div>
+  </div>
+
+  <p class="foot">מבנה: כריכה קידמית + אחורית (גיליון אחד) · עמוד 1 בודד · 15 כפולות (2-3…30-31) · עמוד 32 בודד — תואם פריסת יהלום lay-flat. התמונות האישיות והמשפטים יוחלפו באמיתיים, באיכות גבוהה, אחרי איסוף מההורים.</p>
 
 </div>
 <script>
@@ -642,7 +728,7 @@
   wrap.addEventListener('input',function(){save();});
   function showModal(){document.getElementById('ed-url').value='';document.getElementById('ed-file').value='';document.getElementById('ed-modal').classList.add('show');}
   window.edCloseModal=function(){document.getElementById('ed-modal').classList.remove('show');};
-  function driveURL(v){v=(v||'').trim();if(!v)return '';if(v.indexOf('http')===0&&v.indexOf('drive.google')===-1)return v;var m=v.match(/[-\w]{25,}/);if(m)return 'https://drive.google.com/thumbnail?id='+m[0]+'&sz=w1200';return v;}
+  function driveURL(v){v=(v||'').trim();if(!v)return '';if(v.indexOf('http')===0&&v.indexOf('drive.google')===-1)return v;var m=v.match(/[-\w]{25,}/);if(m)return 'https://drive.google.com/thumbnail?id='+m[0]+'&sz=w1600';return v;}
   window.edApplyImg=function(){
     var f=document.getElementById('ed-file').files[0];
     var url=document.getElementById('ed-url').value;
@@ -723,7 +809,7 @@
     if(c.pending){
       return `<div class="wcard pending"><div class="wnm">${esc(disp)}</div><div class="wpend">טרם נשלח ✎</div></div>`;
     }
-    var ph=c.photoId?`<div class="wph"><img src="https://drive.google.com/thumbnail?id=${c.photoId}&sz=w400"></div>`:(c.photoUrl?`<div class="wph"><img src="${c.photoUrl}"></div>`:'');
+    var ph=c.photoId?`<div class="wph"><img src="https://drive.google.com/thumbnail?id=${c.photoId}&sz=w1600"></div>`:(c.photoUrl?`<div class="wph"><img src="${c.photoUrl}"></div>`:'');
     var tx=c.text?`<div class="wtxt">${esc(c.text)}</div>`:'';
     return `<div class="wcard">${ph}<div class="wnm"><svg class="hh"><use href="#heart"/></svg>${esc(disp)}</div>${tx}</div>`;
   }
@@ -780,7 +866,7 @@
     });
 
     // מטמיעים תמונת בית ספר / שכונה ברווח שבתחתית עמודה — רק כשהרווח גדול מספיק לתמונה יפה
-    var SD='https://drive.google.com/thumbnail?id=', SZ='&sz=w1000';
+    var SD='https://drive.google.com/thumbnail?id=', SZ='&sz=w1600';
     var SCHOOL=[
       SD+'145zBVfpqeyd5i4QXwrXTYG6TDX2Cv69_'+SZ,
       SD+'12RBk27qCF-6cJwE-gUzDVHryH3hJ22IC'+SZ,
@@ -799,7 +885,7 @@
     for(var s=0;s<cols.length;s+=2){
       var right=cols[s]||[], left=cols[s+1]||[];
       var lbl=document.createElement('div'); lbl.className='lbl ww-lbl';
-      lbl.innerHTML=`<span><span class="n">00</span> · מילים לנטע</span><span class="d"><span class="pg">עמ' 0</span> · 25 × 50</span>`;
+      lbl.innerHTML=`<span><span class="n">00</span> · מילים לנטע</span><span class="d"><span class="pg">עמ' 0</span> · 21 × 42</span>`;
       var leaf=document.createElement('div'); leaf.className='leaf spread ww-leaf';
       leaf.innerHTML=`<div class="ww"><div class="wcol wcol-r">${colHTML(right)}</div><div class="wcol wcol-l">${colHTML(left)}</div></div><div class="gutter"></div>`;
       anchor.parentNode.insertBefore(lbl,anchor);
